@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { Pencil, Trash2 } from "lucide-react";
+import { Dumbbell, Pencil, Trash2 } from "lucide-react";
 import type { LegacyColumnDef } from "@tanstack/react-table/legacy";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import type { WorkoutPlanRow } from "@/types";
 
 interface WorkoutPlanColumnsOptions {
@@ -24,7 +24,7 @@ export function getWorkoutPlanColumns({
       cell: ({ row }) => (
         <Link
           href={`/workout-plans/${row.original._id}`}
-          className="font-medium underline-offset-2 hover:underline"
+          className="font-medium underline underline-offset-2 hover:text-primary"
         >
           {row.original.name}
         </Link>
@@ -58,6 +58,13 @@ export function getWorkoutPlanColumns({
       header: "",
       cell: ({ row }) => (
         <div className="flex justify-end gap-1">
+          <Link
+            href={`/workout-plans/${row.original._id}`}
+            aria-label={`Manage exercises in ${row.original.name}`}
+            className={buttonVariants({ variant: "ghost", size: "icon-sm" })}
+          >
+            <Dumbbell className="size-4" />
+          </Link>
           <Button
             variant="ghost"
             size="icon-sm"
