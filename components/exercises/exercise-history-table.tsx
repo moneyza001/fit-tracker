@@ -38,6 +38,26 @@ const columns: LegacyColumnDef<ExerciseSessionStat, unknown>[] = [
     header: "Est. 1RM",
     cell: ({ row }) => `${Math.round(row.original.estimated1RM * 10) / 10} kg`,
   },
+  {
+    id: "rpe",
+    header: "Avg RPE",
+    cell: ({ row }) => {
+      const rated = row.original.sets.filter((set) => set.rpe !== undefined);
+      if (rated.length === 0) return <span className="text-muted-foreground">—</span>;
+      const avg =
+        rated.reduce((sum, set) => sum + (set.rpe ?? 0), 0) / rated.length;
+      return Math.round(avg * 10) / 10;
+    },
+  },
+  {
+    accessorKey: "note",
+    header: "Note",
+    cell: ({ row }) => (
+      <span className="line-clamp-1 text-muted-foreground">
+        {row.original.note || "—"}
+      </span>
+    ),
+  },
 ];
 
 export function ExerciseHistoryTable({ sessions }: ExerciseHistoryTableProps) {

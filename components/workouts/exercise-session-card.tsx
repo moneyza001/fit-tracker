@@ -13,12 +13,20 @@ interface ExerciseSessionCardProps {
   exercise: SessionExercise;
   onChange: (updater: (exercise: SessionExercise) => SessionExercise) => void;
   onSave: () => void;
+  onSetChecked: () => void;
+}
+
+const ROW_GRID = "grid grid-cols-[16px_1fr_1fr_36px_36px_20px_28px] items-center gap-1.5";
+
+function optionalNumber(value: number): number | undefined {
+  return Number.isFinite(value) ? value : undefined;
 }
 
 export function ExerciseSessionCard({
   exercise,
   onChange,
   onSave,
+  onSetChecked,
 }: ExerciseSessionCardProps) {
   function updateSet(setIndex: number, patch: Partial<SessionSetRow>) {
     onChange((ex) => ({
@@ -30,6 +38,7 @@ export function ExerciseSessionCard({
   function toggleSet(setIndex: number, checked: boolean) {
     updateSet(setIndex, { checked });
     onSave();
+    if (checked) onSetChecked();
   }
 
   function addSet() {
@@ -77,38 +86,71 @@ export function ExerciseSessionCard({
         </div>
       </CardHeader>
       <CardContent className="space-y-3">
-        <div className="space-y-2">
+        <div className="space-y-1.5">
+          <div className={`${ROW_GRID} px-0.5 text-[11px] text-muted-foreground`}>
+            <span />
+            <span>Reps</span>
+            <span>kg</span>
+            <span>RPE</span>
+            <span>RIR</span>
+            <span />
+            <span />
+          </div>
           {exercise.sets.map((set, index) => (
-            <div key={set.set} className="flex items-center gap-2">
-              <span className="w-5 shrink-0 text-sm text-muted-foreground">
-                {set.set}
-              </span>
+            <div key={set.set} className={ROW_GRID}>
+              <span className="text-sm text-muted-foreground">{set.set}</span>
               <Input
                 type="number"
                 inputMode="numeric"
                 aria-label={`Set ${set.set} reps`}
-                className="w-16"
+                className="px-1.5 text-center"
                 value={set.reps}
                 onChange={(e) =>
                   updateSet(index, { reps: e.target.valueAsNumber || 0 })
                 }
                 onBlur={() => set.checked && onSave()}
               />
-              <span className="text-xs text-muted-foreground">reps</span>
               <Input
                 type="number"
                 inputMode="decimal"
                 aria-label={`Set ${set.set} weight`}
-                className="w-20"
+                className="px-1.5 text-center"
                 value={set.weight}
                 onChange={(e) =>
                   updateSet(index, { weight: e.target.valueAsNumber || 0 })
                 }
                 onBlur={() => set.checked && onSave()}
               />
-              <span className="text-xs text-muted-foreground">kg</span>
+              <Input
+                type="number"
+                inputMode="numeric"
+                min={0}
+                max={10}
+                aria-label={`Set ${set.set} RPE`}
+                placeholder="—"
+                className="px-1 text-center"
+                value={set.rpe ?? ""}
+                onChange={(e) =>
+                  updateSet(index, { rpe: optionalNumber(e.target.valueAsNumber) })
+                }
+                onBlur={() => set.checked && onSave()}
+              />
+              <Input
+                type="number"
+                inputMode="numeric"
+                min={0}
+                max={10}
+                aria-label={`Set ${set.set} RIR`}
+                placeholder="—"
+                className="px-1 text-center"
+                value={set.rir ?? ""}
+                onChange={(e) =>
+                  updateSet(index, { rir: optionalNumber(e.target.valueAsNumber) })
+                }
+                onBlur={() => set.checked && onSave()}
+              />
               <Checkbox
-                className="ml-auto size-6"
+                className="size-5"
                 checked={set.checked}
                 onCheckedChange={(checked) => toggleSet(index, checked === true)}
                 aria-label={`Mark set ${set.set} done`}

@@ -29,6 +29,7 @@ export interface IWorkoutLog extends Document {
   date: Date;
   exercises: IWorkoutLogExercise[];
   status: WorkoutLogStatus;
+  overallNote?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -74,6 +75,7 @@ const WorkoutLogSchema = new Schema<IWorkoutLog>(
       default: "in_progress",
       required: true,
     },
+    overallNote: { type: String, trim: true },
   },
   { timestamps: true }
 );

@@ -23,6 +23,7 @@ export const workoutLogSchema = z.object({
   date: z.coerce.date(),
   exercises: z.array(workoutLogExerciseSchema).default([]),
   status: z.enum(WORKOUT_LOG_STATUSES).default("in_progress"),
+  overallNote: z.string().trim().max(1000).optional(),
 });
 
 export const workoutLogUpdateSchema = workoutLogSchema

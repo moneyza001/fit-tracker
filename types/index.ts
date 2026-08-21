@@ -110,6 +110,7 @@ export interface WorkoutLogRow {
   date: string;
   exercises: WorkoutLogExerciseRow[];
   status: WorkoutLogStatus;
+  overallNote?: string;
   createdAt: string;
   updatedAt: string;
 }

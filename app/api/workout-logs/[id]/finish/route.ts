@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { connectToDatabase } from "@/lib/db";
 import { WorkoutLog } from "@/models";
+import { detectAndRecordPRs } from "@/lib/detect-prs";
 import { apiSuccess, apiError, handleApiError } from "@/lib/api-response";
 
 type RouteContext = { params: Promise<{ id: string }> };
@@ -21,7 +22,9 @@ export async function POST(_request: NextRequest, { params }: RouteContext) {
     existing.status = "completed";
     await existing.save();
 
-    return apiSuccess(existing);
+    const newPRs = await detectAndRecordPRs(existing);
+
+    return apiSuccess({ log: existing, newPRs });
   } catch (error) {
     return handleApiError(error);
   }

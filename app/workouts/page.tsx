@@ -52,6 +52,7 @@ export default async function WorkoutsPage() {
         workoutPlanName={workoutPlanDoc?.name ?? "Workout"}
         date={currentLog.date}
         initialExercises={sessionExercises}
+        initialOverallNote={currentLog.overallNote ?? ""}
       />
     );
   }

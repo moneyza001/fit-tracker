@@ -9,6 +9,8 @@ export interface SessionSetRow {
   set: number;
   reps: number;
   weight: number;
+  rpe?: number;
+  rir?: number;
   checked: boolean;
 }
 
@@ -54,6 +56,8 @@ export function buildSessionExercises(
             set: setNumber,
             reps: savedSet.reps,
             weight: savedSet.weight,
+            rpe: savedSet.rpe,
+            rir: savedSet.rir,
             checked: true,
           };
         }
@@ -91,7 +95,13 @@ export function toApiExercises(
       exerciseId: exercise.exerciseId,
       sets: exercise.sets
         .filter((set) => set.checked)
-        .map((set) => ({ set: set.set, reps: set.reps, weight: set.weight })),
+        .map((set) => ({
+          set: set.set,
+          reps: set.reps,
+          weight: set.weight,
+          rpe: set.rpe,
+          rir: set.rir,
+        })),
       note: exercise.note.trim() || undefined,
     }));
 }

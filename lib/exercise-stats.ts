@@ -22,6 +22,7 @@ export interface ExerciseSessionStat {
   logId: string;
   date: string;
   sets: WorkoutSetRow[];
+  note?: string;
   weight: number;
   volume: number;
   reps: number;
@@ -52,6 +53,7 @@ export function buildExerciseSessionStats(
         logId: log._id,
         date: log.date,
         sets: entry.sets,
+        note: entry.note,
         weight,
         volume,
         reps,
