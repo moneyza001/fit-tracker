@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Pencil, Trash2 } from "lucide-react";
 import type { LegacyColumnDef } from "@tanstack/react-table/legacy";
 import { Button } from "@/components/ui/button";
@@ -21,7 +22,12 @@ export function getWorkoutPlanColumns({
       accessorKey: "name",
       header: "Name",
       cell: ({ row }) => (
-        <span className="font-medium">{row.original.name}</span>
+        <Link
+          href={`/workout-plans/${row.original._id}`}
+          className="font-medium underline-offset-2 hover:underline"
+        >
+          {row.original.name}
+        </Link>
       ),
     },
     {
