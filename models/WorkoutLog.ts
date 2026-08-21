@@ -25,7 +25,8 @@ export interface IWorkoutLogExercise {
 
 export interface IWorkoutLog extends Document {
   userId: string;
-  workoutPlanId: Types.ObjectId;
+  workoutPlanId?: Types.ObjectId;
+  workoutTemplateId?: Types.ObjectId;
   date: Date;
   exercises: IWorkoutLogExercise[];
   status: WorkoutLogStatus;
@@ -65,7 +66,10 @@ const WorkoutLogSchema = new Schema<IWorkoutLog>(
     workoutPlanId: {
       type: Schema.Types.ObjectId,
       ref: "WorkoutPlan",
-      required: true,
+    },
+    workoutTemplateId: {
+      type: Schema.Types.ObjectId,
+      ref: "WorkoutTemplate",
     },
     date: { type: Date, required: true },
     exercises: { type: [WorkoutLogExerciseSchema], required: true, default: [] },

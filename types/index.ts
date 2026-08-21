@@ -106,11 +106,29 @@ export interface WorkoutLogExerciseRow {
 export interface WorkoutLogRow {
   _id: string;
   userId: string;
-  workoutPlanId: string;
+  workoutPlanId?: string;
+  workoutTemplateId?: string;
   date: string;
   exercises: WorkoutLogExerciseRow[];
   status: WorkoutLogStatus;
   overallNote?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface WorkoutTemplateExerciseRow {
+  exerciseId: ExerciseRow;
+  targetSets: number;
+  targetReps: number;
+  targetWeight: number;
+}
+
+export interface WorkoutTemplateRow {
+  _id: string;
+  userId: string;
+  name: string;
+  description?: string;
+  exercises: WorkoutTemplateExerciseRow[];
   createdAt: string;
   updatedAt: string;
 }

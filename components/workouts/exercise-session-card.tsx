@@ -84,6 +84,14 @@ export function ExerciseSessionCard({
             {exercise.targetWeight}kg
           </Badge>
         </div>
+        {exercise.previousSets.length > 0 && (
+          <p className="text-xs text-muted-foreground">
+            Last time:{" "}
+            {exercise.previousSets
+              .map((set) => `${set.weight}kg × ${set.reps}`)
+              .join(", ")}
+          </p>
+        )}
       </CardHeader>
       <CardContent className="space-y-3">
         <div className="space-y-1.5">

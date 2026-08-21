@@ -1,9 +1,12 @@
-import type {
-  WorkoutLogExerciseRow,
-  WorkoutLogRow,
-  WorkoutPlanExerciseRow,
-} from "@/types";
+import type { WorkoutLogExerciseRow, WorkoutLogRow } from "@/types";
 import type { WorkoutLogExerciseInput } from "@/lib/validations";
+
+export interface SessionTargetExercise {
+  exerciseId: { _id: string; name: string };
+  targetSets: number;
+  targetReps: number;
+  targetWeight: number;
+}
 
 export interface SessionSetRow {
   set: number;
@@ -14,6 +17,11 @@ export interface SessionSetRow {
   checked: boolean;
 }
 
+export interface PreviousSetRow {
+  reps: number;
+  weight: number;
+}
+
 export interface SessionExercise {
   exerciseId: string;
   exerciseName: string;
@@ -22,6 +30,7 @@ export interface SessionExercise {
   targetWeight: number;
   note: string;
   sets: SessionSetRow[];
+  previousSets: PreviousSetRow[];
 }
 
 function findExerciseEntry(
@@ -32,7 +41,7 @@ function findExerciseEntry(
 }
 
 export function buildSessionExercises(
-  planExercises: WorkoutPlanExerciseRow[],
+  planExercises: SessionTargetExercise[],
   currentLog: WorkoutLogRow | null,
   previousLog: WorkoutLogRow | null
 ): SessionExercise[] {
@@ -82,6 +91,10 @@ export function buildSessionExercises(
       targetWeight: planExercise.targetWeight,
       note: currentEntry?.note ?? "",
       sets,
+      previousSets: (previousEntry?.sets ?? []).map((s) => ({
+        reps: s.reps,
+        weight: s.weight,
+      })),
     };
   });
 }

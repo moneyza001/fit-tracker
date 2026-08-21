@@ -11,5 +11,10 @@ export {
   type IWorkoutLogExercise,
   type IWorkoutSet,
 } from "./WorkoutLog";
+export {
+  WorkoutTemplate,
+  type IWorkoutTemplate,
+  type IWorkoutTemplateExercise,
+} from "./WorkoutTemplate";
 export { BodyWeight, type IBodyWeight } from "./BodyWeight";
 export { PersonalRecord, type IPersonalRecord } from "./PersonalRecord";

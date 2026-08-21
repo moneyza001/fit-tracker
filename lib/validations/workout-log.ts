@@ -17,17 +17,26 @@ export const workoutLogExerciseSchema = z.object({
   note: z.string().trim().max(500).optional(),
 });
 
-export const workoutLogSchema = z.object({
+const workoutLogBaseSchema = z.object({
   userId: z.string().min(1),
-  workoutPlanId: objectIdSchema,
+  workoutPlanId: objectIdSchema.optional(),
+  workoutTemplateId: objectIdSchema.optional(),
   date: z.coerce.date(),
   exercises: z.array(workoutLogExerciseSchema).default([]),
   status: z.enum(WORKOUT_LOG_STATUSES).default("in_progress"),
   overallNote: z.string().trim().max(1000).optional(),
 });
 
-export const workoutLogUpdateSchema = workoutLogSchema
-  .omit({ userId: true, workoutPlanId: true, status: true })
+export const workoutLogSchema = workoutLogBaseSchema.refine(
+  (data) => Boolean(data.workoutPlanId) || Boolean(data.workoutTemplateId),
+  {
+    message: "Either workoutPlanId or workoutTemplateId is required",
+    path: ["workoutPlanId"],
+  }
+);
+
+export const workoutLogUpdateSchema = workoutLogBaseSchema
+  .omit({ userId: true, workoutPlanId: true, workoutTemplateId: true, status: true })
   .partial();
 
 export type WorkoutSetInput = z.infer<typeof workoutSetSchema>;

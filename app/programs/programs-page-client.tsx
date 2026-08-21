@@ -6,9 +6,20 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ProgramsTab } from "@/components/programs/programs-tab";
 import { WorkoutPlansTab } from "@/components/workout-plans/workout-plans-tab";
 import { ExercisesTab } from "@/components/exercises/exercises-tab";
-import type { ExerciseRow, ProgramRow, WorkoutPlanRow } from "@/types";
+import { WorkoutTemplatesTab } from "@/components/workout-templates/workout-templates-tab";
+import type {
+  ExerciseRow,
+  ProgramRow,
+  WorkoutPlanRow,
+  WorkoutTemplateRow,
+} from "@/types";
 
-const VALID_TABS = ["programs", "workout-plans", "exercises"] as const;
+const VALID_TABS = [
+  "programs",
+  "workout-plans",
+  "exercises",
+  "templates",
+] as const;
 type TabValue = (typeof VALID_TABS)[number];
 
 function resolveTab(tab?: string): TabValue {
@@ -22,6 +33,7 @@ interface ProgramsPageClientProps {
   initialPrograms: ProgramRow[];
   initialWorkoutPlans: WorkoutPlanRow[];
   initialExercises: ExerciseRow[];
+  initialWorkoutTemplates: WorkoutTemplateRow[];
 }
 
 export function ProgramsPageClient({
@@ -29,6 +41,7 @@ export function ProgramsPageClient({
   initialPrograms,
   initialWorkoutPlans,
   initialExercises,
+  initialWorkoutTemplates,
 }: ProgramsPageClientProps) {
   const router = useRouter();
   const [tab, setTab] = useState<TabValue>(resolveTab(initialTab));
@@ -56,6 +69,7 @@ export function ProgramsPageClient({
           <TabsTrigger value="programs">Programs</TabsTrigger>
           <TabsTrigger value="workout-plans">Workout Plans</TabsTrigger>
           <TabsTrigger value="exercises">Exercises</TabsTrigger>
+          <TabsTrigger value="templates">Templates</TabsTrigger>
         </TabsList>
         <TabsContent value="programs">
           <ProgramsTab programs={programs} onProgramsChange={setPrograms} />
@@ -68,6 +82,9 @@ export function ProgramsPageClient({
         </TabsContent>
         <TabsContent value="exercises">
           <ExercisesTab initialExercises={initialExercises} />
+        </TabsContent>
+        <TabsContent value="templates">
+          <WorkoutTemplatesTab initialWorkoutTemplates={initialWorkoutTemplates} />
         </TabsContent>
       </Tabs>
     </div>

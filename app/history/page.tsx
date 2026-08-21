@@ -11,13 +11,18 @@ export default async function HistoryPage() {
 
   const logsDoc = await WorkoutLog.find({ userId: CURRENT_USER_ID })
     .sort({ date: -1 })
-    .populate("workoutPlanId");
+    .populate("workoutPlanId")
+    .populate("workoutTemplateId");
 
   const logs = toPlainJSON<
-    (HistoryRow & { workoutPlanId: { name: string } | null })[]
+    (HistoryRow & {
+      workoutPlanId: { name: string } | null;
+      workoutTemplateId: { name: string } | null;
+    })[]
   >(logsDoc).map((log) => ({
     ...log,
-    workoutPlanName: log.workoutPlanId?.name ?? "Workout",
+    workoutPlanName:
+      log.workoutPlanId?.name ?? log.workoutTemplateId?.name ?? "Workout",
   }));
 
   return (
