@@ -1,8 +1,15 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/sonner";
 import { AppShell } from "@/components/layout/app-shell";
+import { ServiceWorkerRegister } from "@/components/pwa/sw-register";
 import "./globals.css";
+
+const ACCENT_BOOTSTRAP_SCRIPT = `try {
+  var accent = localStorage.getItem("fittracker:accent");
+  if (accent) document.documentElement.setAttribute("data-accent", accent);
+} catch (e) {}`;
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,6 +24,16 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "FitTracker",
   description: "Fitness tracking app — programs, workouts, and progress analytics",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "FitTracker",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0a0a0a",
 };
 
 export default function RootLayout({
@@ -25,12 +42,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AppShell>{children}</AppShell>
-        <Toaster />
+        <script dangerouslySetInnerHTML={{ __html: ACCENT_BOOTSTRAP_SCRIPT }} />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <AppShell>{children}</AppShell>
+          <Toaster />
+          <ServiceWorkerRegister />
+        </ThemeProvider>
       </body>
     </html>
   );

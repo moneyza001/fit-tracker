@@ -33,6 +33,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { StatTile } from "@/components/dashboard/stat-tile";
 import { WeightChart } from "@/components/dashboard/weight-chart";
+import { ReminderBanner } from "@/components/dashboard/reminder-banner";
 
 export const dynamic = "force-dynamic";
 
@@ -43,7 +44,8 @@ export default async function DashboardPage() {
     await Promise.all([
       WorkoutLog.find({ userId: CURRENT_USER_ID, status: "completed" })
         .sort({ date: -1 })
-        .populate("workoutPlanId"),
+        .populate("workoutPlanId")
+        .populate("workoutTemplateId"),
       Program.find({ status: "active" }).sort({ name: 1 }),
       BodyWeight.find({ userId: CURRENT_USER_ID }).sort({ date: 1 }),
       PersonalRecord.find({ userId: CURRENT_USER_ID })
@@ -53,7 +55,10 @@ export default async function DashboardPage() {
     ]);
 
   const completedLogs = toPlainJSON<
-    (WorkoutLogRow & { workoutPlanId: { _id: string; name: string } })[]
+    (WorkoutLogRow & {
+      workoutPlanId: { _id: string; name: string } | null;
+      workoutTemplateId: { _id: string; name: string } | null;
+    })[]
   >(completedLogsDoc);
   const activePrograms = toPlainJSON<ProgramRow[]>(activeProgramsDoc);
   const bodyWeights = toPlainJSON<BodyWeightRow[]>(bodyWeightsDoc);
@@ -67,6 +72,7 @@ export default async function DashboardPage() {
   const thisWeek = countWorkoutsThisWeek(completedLogs);
   const latestWeight = bodyWeights[bodyWeights.length - 1];
   const recentWorkouts = completedLogs.slice(0, 5);
+  const lastWorkoutDate = completedLogs[0]?.date ?? null;
 
   return (
     <div className="space-y-6">
@@ -76,6 +82,12 @@ export default async function DashboardPage() {
           Your training at a glance.
         </p>
       </div>
+
+      <ReminderBanner
+        streak={streak}
+        lastWorkoutDate={lastWorkoutDate}
+        hasActiveProgram={activePrograms.length > 0}
+      />
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatTile label="Total Workouts" value={String(totalWorkouts)} icon={Dumbbell} />
@@ -211,7 +223,9 @@ export default async function DashboardPage() {
                 >
                   <div>
                     <p className="font-medium">
-                      {log.workoutPlanId?.name ?? "Workout"}
+                      {log.workoutPlanId?.name ??
+                        log.workoutTemplateId?.name ??
+                        "Workout"}
                     </p>
                     <p className="text-xs text-muted-foreground">
                       {new Date(log.date).toLocaleDateString(undefined, {

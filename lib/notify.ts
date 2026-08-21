@@ -29,3 +29,21 @@ export function vibrateDevice(pattern: number | number[] = [200, 100, 200]) {
     navigator.vibrate(pattern);
   }
 }
+
+export async function requestNotificationPermission(): Promise<NotificationPermission> {
+  if (typeof window === "undefined" || !("Notification" in window)) {
+    return "denied";
+  }
+  if (Notification.permission !== "default") return Notification.permission;
+  return Notification.requestPermission();
+}
+
+export function sendBrowserNotification(title: string, body: string) {
+  if (typeof window === "undefined" || !("Notification" in window)) return;
+  if (Notification.permission !== "granted") return;
+  try {
+    new Notification(title, { body, icon: "/icon.svg" });
+  } catch {
+    // Notifications are a nice-to-have; never block the app on them.
+  }
+}
