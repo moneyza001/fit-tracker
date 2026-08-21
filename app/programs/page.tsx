@@ -4,6 +4,8 @@ import { toPlainJSON } from "@/lib/serialize";
 import type { ProgramRow, WorkoutPlanRow, ExerciseRow } from "@/types";
 import { ProgramsPageClient } from "./programs-page-client";
 
+export const dynamic = "force-dynamic";
+
 export default async function ProgramsPage({
   searchParams,
 }: {

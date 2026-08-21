@@ -75,3 +75,64 @@ export interface ExerciseRow {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface WorkoutPlanExerciseRow {
+  _id: string;
+  workoutPlanId: string;
+  exerciseId: ExerciseRow;
+  order: number;
+  targetSets: number;
+  targetReps: number;
+  targetWeight: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface WorkoutSetRow {
+  set: number;
+  reps: number;
+  weight: number;
+  duration?: number;
+  rpe?: number;
+  rir?: number;
+}
+
+export interface WorkoutLogExerciseRow {
+  exerciseId: string;
+  sets: WorkoutSetRow[];
+  note?: string;
+}
+
+export interface WorkoutLogRow {
+  _id: string;
+  userId: string;
+  workoutPlanId: string;
+  date: string;
+  exercises: WorkoutLogExerciseRow[];
+  status: WorkoutLogStatus;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface BodyWeightRow {
+  _id: string;
+  userId: string;
+  date: string;
+  weight: number;
+  note?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PersonalRecordRow {
+  _id: string;
+  userId: string;
+  exerciseId: string;
+  weight: number;
+  reps: number;
+  estimated1RM: number;
+  achievedAt: string;
+  workoutLogId: string;
+  createdAt: string;
+  updatedAt: string;
+}

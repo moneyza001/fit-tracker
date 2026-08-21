@@ -4,7 +4,11 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { programSchema, type ProgramInput } from "@/lib/validations";
+import {
+  programSchema,
+  type ProgramInput,
+  type ProgramFormInput,
+} from "@/lib/validations";
 import { apiRequest } from "@/lib/api-client";
 import { PROGRAM_STATUSES, type ProgramRow } from "@/types";
 import {
@@ -40,7 +44,7 @@ interface ProgramFormProps {
   onSuccess: () => void;
 }
 
-const emptyValues: ProgramInput = {
+const emptyValues: ProgramFormInput = {
   name: "",
   description: "",
   status: "active",
@@ -54,7 +58,7 @@ export function ProgramForm({
 }: ProgramFormProps) {
   const isEdit = Boolean(program);
 
-  const form = useForm<ProgramInput>({
+  const form = useForm<ProgramFormInput, unknown, ProgramInput>({
     resolver: zodResolver(programSchema),
     defaultValues: emptyValues,
   });
