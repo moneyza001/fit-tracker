@@ -1,16 +1,18 @@
 import { notFound } from "next/navigation";
 import { Weight, Trophy, Zap } from "lucide-react";
 import { connectToDatabase } from "@/lib/db";
-import { Exercise, WorkoutLog } from "@/models";
+import { BodyWeight, Exercise, WorkoutLog } from "@/models";
 import { toPlainJSON } from "@/lib/serialize";
 import { CURRENT_USER_ID } from "@/lib/constants";
 import { buildExerciseSessionStats } from "@/lib/exercise-stats";
-import type { ExerciseRow, WorkoutLogRow } from "@/types";
+import { buildBodyWeightOverlay } from "@/lib/body-weight-overlay";
+import type { BodyWeightRow, ExerciseRow, WorkoutLogRow } from "@/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { StatTile } from "@/components/dashboard/stat-tile";
 import { ExerciseMetricChart } from "@/components/exercises/exercise-metric-chart";
 import { ExerciseHistoryTable } from "@/components/exercises/exercise-history-table";
+import { BodyWeightOverlayChart } from "@/components/exercises/body-weight-overlay-chart";
 
 export const dynamic = "force-dynamic";
 
@@ -27,14 +29,19 @@ export default async function ExerciseDetailPage({
     notFound();
   }
 
-  const logsDoc = await WorkoutLog.find({
-    userId: CURRENT_USER_ID,
-    status: "completed",
-  }).sort({ date: 1 });
+  const [logsDoc, bodyWeightsDoc] = await Promise.all([
+    WorkoutLog.find({
+      userId: CURRENT_USER_ID,
+      status: "completed",
+    }).sort({ date: 1 }),
+    BodyWeight.find({ userId: CURRENT_USER_ID }).sort({ date: 1 }),
+  ]);
 
   const exercise = toPlainJSON<ExerciseRow>(exerciseDoc);
   const logs = toPlainJSON<WorkoutLogRow[]>(logsDoc);
+  const bodyWeights = toPlainJSON<BodyWeightRow[]>(bodyWeightsDoc);
   const sessions = buildExerciseSessionStats(logs, exercise._id);
+  const overlay = buildBodyWeightOverlay(sessions, bodyWeights);
 
   const latest = sessions[sessions.length - 1];
   const bestWeight = sessions.length
@@ -85,6 +92,18 @@ export default async function ExerciseDetailPage({
         </CardHeader>
         <CardContent>
           <ExerciseMetricChart sessions={sessions} />
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Body Weight vs. Lifted Weight</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <BodyWeightOverlayChart
+            data={overlay}
+            hasBodyWeightEntries={bodyWeights.length > 0}
+          />
         </CardContent>
       </Card>
 

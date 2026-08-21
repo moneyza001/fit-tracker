@@ -23,7 +23,13 @@ import type {
   ProgramRow,
   WorkoutLogRow,
 } from "@/types";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { StatTile } from "@/components/dashboard/stat-tile";
 import { WeightChart } from "@/components/dashboard/weight-chart";
@@ -98,12 +104,18 @@ export default async function DashboardPage() {
             <CardTitle className="flex items-center gap-2">
               <Scale className="size-4" />
               Body Weight
-              {latestWeight && (
-                <Badge variant="outline" className="ml-auto">
-                  {latestWeight.weight} kg
-                </Badge>
-              )}
             </CardTitle>
+            <CardAction className="flex items-center gap-2">
+              {latestWeight && (
+                <Badge variant="outline">{latestWeight.weight} kg</Badge>
+              )}
+              <Link
+                href="/body-weight"
+                className="text-sm text-muted-foreground underline-offset-2 hover:text-foreground hover:underline"
+              >
+                Log Weight
+              </Link>
+            </CardAction>
           </CardHeader>
           <CardContent>
             <WeightChart entries={bodyWeights} />
