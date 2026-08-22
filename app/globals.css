@@ -202,6 +202,23 @@
   --sidebar-ring: oklch(0.72 0.18 15);
 }
 
+[data-accent="pink"] {
+  --primary: #f8bbd0;
+  --primary-foreground: oklch(0.145 0 0);
+  --ring: #f8bbd099;
+  --sidebar-primary: #f8bbd0;
+  --sidebar-primary-foreground: oklch(0.145 0 0);
+  --sidebar-ring: #f8bbd0;
+}
+.dark[data-accent="pink"] {
+  --primary: #f8bbd0;
+  --primary-foreground: oklch(0.145 0 0);
+  --ring: #f8bbd099;
+  --sidebar-primary: #f8bbd0;
+  --sidebar-primary-foreground: oklch(0.145 0 0);
+  --sidebar-ring: #f8bbd0;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

@@ -1,4 +1,4 @@
-export const ACCENTS = ["gray", "blue", "green", "purple", "orange", "rose"] as const;
+export const ACCENTS = ["gray", "blue", "green", "purple", "orange", "rose", "pink"] as const;
 export type Accent = (typeof ACCENTS)[number];
 
 export const ACCENT_OPTIONS: { value: Accent; label: string; swatchClass: string }[] = [
@@ -8,6 +8,7 @@ export const ACCENT_OPTIONS: { value: Accent; label: string; swatchClass: string
   { value: "purple", label: "Purple", swatchClass: "bg-[oklch(0.5_0.2_300)]" },
   { value: "orange", label: "Orange", swatchClass: "bg-[oklch(0.6_0.19_45)]" },
   { value: "rose", label: "Rose", swatchClass: "bg-[oklch(0.55_0.21_15)]" },
+  { value: "pink", label: "Pink", swatchClass: "bg-[#f8bbd0]" },
 ];
 
 const ACCENT_KEY = "fittracker:accent";

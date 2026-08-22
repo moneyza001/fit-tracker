@@ -116,6 +116,7 @@ export function ExerciseSessionCard({
                 onChange={(e) =>
                   updateSet(index, { reps: e.target.valueAsNumber || 0 })
                 }
+                onFocus={(e) => e.currentTarget.select()}
                 onBlur={() => set.checked && onSave()}
               />
               <Input
@@ -127,6 +128,7 @@ export function ExerciseSessionCard({
                 onChange={(e) =>
                   updateSet(index, { weight: e.target.valueAsNumber || 0 })
                 }
+                onFocus={(e) => e.currentTarget.select()}
                 onBlur={() => set.checked && onSave()}
               />
               <Input
@@ -141,6 +143,7 @@ export function ExerciseSessionCard({
                 onChange={(e) =>
                   updateSet(index, { rpe: optionalNumber(e.target.valueAsNumber) })
                 }
+                onFocus={(e) => e.currentTarget.select()}
                 onBlur={() => set.checked && onSave()}
               />
               <Input
@@ -155,6 +158,7 @@ export function ExerciseSessionCard({
                 onChange={(e) =>
                   updateSet(index, { rir: optionalNumber(e.target.valueAsNumber) })
                 }
+                onFocus={(e) => e.currentTarget.select()}
                 onBlur={() => set.checked && onSave()}
               />
               <Checkbox

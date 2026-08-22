@@ -50,6 +50,7 @@ export function WorkoutSession({
   const [isFinishing, setIsFinishing] = useState(false);
   const [isCanceling, setIsCanceling] = useState(false);
   const [cancelOpen, setCancelOpen] = useState(false);
+  const [unfinishedSetsOpen, setUnfinishedSetsOpen] = useState(false);
   const [restSecondsLeft, setRestSecondsLeft] = useState<number | null>(null);
   const [restTotal, setRestTotal] = useState(90);
   const restDurationRef = useRef(90);
@@ -128,7 +129,19 @@ export function WorkoutSession({
     }
   }
 
+  function handleFinishClick() {
+    const hasUncheckedSets = exercises.some((exercise) =>
+      exercise.sets.some((set) => !set.checked)
+    );
+    if (hasUncheckedSets) {
+      setUnfinishedSetsOpen(true);
+      return;
+    }
+    handleFinish();
+  }
+
   async function handleFinish() {
+    setUnfinishedSetsOpen(false);
     setIsFinishing(true);
     try {
       const result = await apiRequest<{ log: WorkoutLogRow; newPRs: NewPR[] }>(
@@ -237,13 +250,31 @@ export function WorkoutSession({
         <Button
           size="lg"
           className="w-full text-base"
-          onClick={handleFinish}
+          onClick={handleFinishClick}
           disabled={isFinishing}
         >
           <CheckCircle2 className="size-5" />
           Finish Workout
         </Button>
       </div>
+
+      <AlertDialog open={unfinishedSetsOpen} onOpenChange={setUnfinishedSetsOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Some sets aren&apos;t marked done</AlertDialogTitle>
+            <AlertDialogDescription>
+              You have sets that haven&apos;t been checked off — they won&apos;t
+              be saved to this workout&apos;s history. Finish anyway?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Keep going</AlertDialogCancel>
+            <AlertDialogAction onClick={handleFinish} disabled={isFinishing}>
+              Finish anyway
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <AlertDialog open={cancelOpen} onOpenChange={setCancelOpen}>
         <AlertDialogContent>
