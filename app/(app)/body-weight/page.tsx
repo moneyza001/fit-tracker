@@ -3,7 +3,7 @@ import { ArrowLeft } from "lucide-react";
 import { connectToDatabase } from "@/lib/db";
 import { BodyWeight } from "@/models";
 import { toPlainJSON } from "@/lib/serialize";
-import { CURRENT_USER_ID } from "@/lib/constants";
+import { requireUserId } from "@/lib/auth-guard";
 import type { BodyWeightRow } from "@/types";
 import { BodyWeightTab } from "@/components/body-weight/body-weight-tab";
 
@@ -11,8 +11,9 @@ export const dynamic = "force-dynamic";
 
 export default async function BodyWeightPage() {
   await connectToDatabase();
+  const userId = await requireUserId();
 
-  const entriesDoc = await BodyWeight.find({ userId: CURRENT_USER_ID }).sort({
+  const entriesDoc = await BodyWeight.find({ userId }).sort({
     date: 1,
   });
   const entries = toPlainJSON<BodyWeightRow[]>(entriesDoc);

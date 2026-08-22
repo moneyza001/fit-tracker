@@ -11,7 +11,7 @@ export interface IBodyWeight extends Document {
 
 const BodyWeightSchema = new Schema<IBodyWeight>(
   {
-    userId: { type: String, required: true },
+    userId: { type: String, required: true, index: true },
     date: { type: Date, required: true },
     weight: { type: Number, required: true },
     note: { type: String, trim: true },

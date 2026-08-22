@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { Dumbbell } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { NAV_ITEMS, isNavItemActive } from "./nav-items";
+import { UserMenu } from "./user-menu";
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -36,6 +37,9 @@ export function Sidebar() {
           );
         })}
       </nav>
+      <div className="border-t border-border p-2">
+        <UserMenu />
+      </div>
     </aside>
   );
 }

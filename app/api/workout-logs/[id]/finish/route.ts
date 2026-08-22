@@ -3,15 +3,17 @@ import { connectToDatabase } from "@/lib/db";
 import { WorkoutLog } from "@/models";
 import { detectAndRecordPRs } from "@/lib/detect-prs";
 import { apiSuccess, apiError, handleApiError } from "@/lib/api-response";
+import { requireUserId } from "@/lib/auth-guard";
 
 type RouteContext = { params: Promise<{ id: string }> };
 
 export async function POST(_request: NextRequest, { params }: RouteContext) {
   try {
     await connectToDatabase();
+    const userId = await requireUserId();
     const { id } = await params;
 
-    const existing = await WorkoutLog.findById(id);
+    const existing = await WorkoutLog.findOne({ _id: id, userId });
     if (!existing) {
       return apiError("Workout log not found", 404);
     }

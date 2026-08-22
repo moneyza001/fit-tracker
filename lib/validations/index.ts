@@ -1,4 +1,5 @@
 export * from "./common";
+export * from "./auth";
 export * from "./program";
 export * from "./workout-plan";
 export * from "./exercise";

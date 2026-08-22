@@ -21,7 +21,7 @@ export interface IPersonalRecord extends Document {
 
 const PersonalRecordSchema = new Schema<IPersonalRecord>(
   {
-    userId: { type: String, required: true },
+    userId: { type: String, required: true, index: true },
     exerciseId: {
       type: Schema.Types.ObjectId,
       ref: "Exercise",

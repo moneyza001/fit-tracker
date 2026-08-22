@@ -18,3 +18,4 @@ export {
 } from "./WorkoutTemplate";
 export { BodyWeight, type IBodyWeight } from "./BodyWeight";
 export { PersonalRecord, type IPersonalRecord } from "./PersonalRecord";
+export { User, type IUser } from "./User";

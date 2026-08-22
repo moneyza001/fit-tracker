@@ -7,7 +7,6 @@ import { toast } from "sonner";
 import type { z } from "zod";
 import { workoutTemplateSchema } from "@/lib/validations";
 import { apiRequest } from "@/lib/api-client";
-import { CURRENT_USER_ID } from "@/lib/constants";
 import type { WorkoutTemplateRow } from "@/types";
 import {
   Dialog,
@@ -78,7 +77,7 @@ export function WorkoutTemplateForm({
       } else {
         await apiRequest("/api/workout-templates", {
           method: "POST",
-          body: JSON.stringify({ ...values, userId: CURRENT_USER_ID, exercises: [] }),
+          body: JSON.stringify({ ...values, exercises: [] }),
         });
         toast.success("Template created");
       }

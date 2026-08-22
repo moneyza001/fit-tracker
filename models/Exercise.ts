@@ -9,6 +9,7 @@ import {
 } from "@/types";
 
 export interface IExercise extends Document {
+  userId: string;
   name: string;
   muscleGroup: MuscleGroup;
   equipment: Equipment;
@@ -19,6 +20,7 @@ export interface IExercise extends Document {
 
 const ExerciseSchema = new Schema<IExercise>(
   {
+    userId: { type: String, required: true, index: true },
     name: { type: String, required: true, trim: true },
     muscleGroup: { type: String, enum: MUSCLE_GROUPS, required: true },
     equipment: { type: String, enum: EQUIPMENT_TYPES, required: true },

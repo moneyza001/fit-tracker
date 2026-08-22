@@ -3,17 +3,20 @@ import { connectToDatabase } from "@/lib/db";
 import { WorkoutPlanExercise } from "@/models";
 import { workoutPlanExerciseSchema } from "@/lib/validations";
 import { apiSuccess, apiError, handleApiError } from "@/lib/api-response";
+import { requireUserId } from "@/lib/auth-guard";
 
 type RouteContext = { params: Promise<{ id: string }> };
 
 export async function GET(_request: NextRequest, { params }: RouteContext) {
   try {
     await connectToDatabase();
+    const userId = await requireUserId();
     const { id } = await params;
 
-    const workoutPlanExercise = await WorkoutPlanExercise.findById(id).populate(
-      "exerciseId"
-    );
+    const workoutPlanExercise = await WorkoutPlanExercise.findOne({
+      _id: id,
+      userId,
+    }).populate("exerciseId");
     if (!workoutPlanExercise) {
       return apiError("Workout plan exercise not found", 404);
     }
@@ -27,11 +30,12 @@ export async function GET(_request: NextRequest, { params }: RouteContext) {
 export async function PATCH(request: NextRequest, { params }: RouteContext) {
   try {
     await connectToDatabase();
+    const userId = await requireUserId();
     const { id } = await params;
 
     const body = workoutPlanExerciseSchema.partial().parse(await request.json());
-    const workoutPlanExercise = await WorkoutPlanExercise.findByIdAndUpdate(
-      id,
+    const workoutPlanExercise = await WorkoutPlanExercise.findOneAndUpdate(
+      { _id: id, userId },
       body,
       { new: true, runValidators: true }
     );
@@ -48,9 +52,13 @@ export async function PATCH(request: NextRequest, { params }: RouteContext) {
 export async function DELETE(_request: NextRequest, { params }: RouteContext) {
   try {
     await connectToDatabase();
+    const userId = await requireUserId();
     const { id } = await params;
 
-    const workoutPlanExercise = await WorkoutPlanExercise.findByIdAndDelete(id);
+    const workoutPlanExercise = await WorkoutPlanExercise.findOneAndDelete({
+      _id: id,
+      userId,
+    });
     if (!workoutPlanExercise) {
       return apiError("Workout plan exercise not found", 404);
     }

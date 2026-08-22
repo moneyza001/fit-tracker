@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/data-table";
 import { ConfirmDeleteDialog } from "@/components/confirm-delete-dialog";
 import { apiRequest } from "@/lib/api-client";
-import { CURRENT_USER_ID } from "@/lib/constants";
 import type { WorkoutTemplateRow } from "@/types";
 import { WorkoutTemplateForm } from "./workout-template-form";
 import { getWorkoutTemplateColumns } from "./workout-template-columns";
@@ -36,7 +35,7 @@ export function WorkoutTemplatesTab({
     setIsLoading(true);
     try {
       const templates = await apiRequest<WorkoutTemplateRow[]>(
-        `/api/workout-templates?userId=${CURRENT_USER_ID}`
+        "/api/workout-templates"
       );
       setWorkoutTemplates(templates);
     } catch (error) {

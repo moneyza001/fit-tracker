@@ -2,8 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/sonner";
-import { AppShell } from "@/components/layout/app-shell";
 import { ServiceWorkerRegister } from "@/components/pwa/sw-register";
+import { SessionProvider } from "@/components/providers/session-provider";
+import { auth } from "@/auth";
 import "./globals.css";
 
 const ACCENT_BOOTSTRAP_SCRIPT = `try {
@@ -36,11 +37,13 @@ export const viewport: Viewport = {
   themeColor: "#0a0a0a",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -53,9 +56,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <AppShell>{children}</AppShell>
-          <Toaster />
-          <ServiceWorkerRegister />
+          <SessionProvider session={session}>
+            {children}
+            <Toaster />
+            <ServiceWorkerRegister />
+          </SessionProvider>
         </ThemeProvider>
       </body>
     </html>

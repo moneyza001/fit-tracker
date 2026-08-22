@@ -8,6 +8,7 @@ import {
 } from "mongoose";
 
 export interface IWorkoutPlan extends Document {
+  userId: string;
   programId: Types.ObjectId;
   name: string;
   day: number;
@@ -18,6 +19,7 @@ export interface IWorkoutPlan extends Document {
 
 const WorkoutPlanSchema = new Schema<IWorkoutPlan>(
   {
+    userId: { type: String, required: true, index: true },
     programId: {
       type: Schema.Types.ObjectId,
       ref: "Program",

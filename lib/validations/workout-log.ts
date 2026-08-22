@@ -18,7 +18,6 @@ export const workoutLogExerciseSchema = z.object({
 });
 
 const workoutLogBaseSchema = z.object({
-  userId: z.string().min(1),
   workoutPlanId: objectIdSchema.optional(),
   workoutTemplateId: objectIdSchema.optional(),
   date: z.coerce.date(),
@@ -36,7 +35,7 @@ export const workoutLogSchema = workoutLogBaseSchema.refine(
 );
 
 export const workoutLogUpdateSchema = workoutLogBaseSchema
-  .omit({ userId: true, workoutPlanId: true, workoutTemplateId: true, status: true })
+  .omit({ workoutPlanId: true, workoutTemplateId: true, status: true })
   .partial();
 
 export type WorkoutSetInput = z.infer<typeof workoutSetSchema>;

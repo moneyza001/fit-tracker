@@ -8,7 +8,7 @@ import {
 } from "@/models";
 import { toPlainJSON } from "@/lib/serialize";
 import { buildSessionExercises } from "@/lib/workout-session";
-import { CURRENT_USER_ID } from "@/lib/constants";
+import { requireUserId } from "@/lib/auth-guard";
 import type {
   ProgramRow,
   WorkoutPlanRow,
@@ -23,9 +23,10 @@ export const dynamic = "force-dynamic";
 
 export default async function WorkoutsPage() {
   await connectToDatabase();
+  const userId = await requireUserId();
 
   const inProgressLogDoc = await WorkoutLog.findOne({
-    userId: CURRENT_USER_ID,
+    userId,
     status: "in_progress",
   }).sort({ createdAt: -1 });
 
@@ -34,11 +35,13 @@ export default async function WorkoutsPage() {
 
     if (inProgressLogDoc.workoutTemplateId) {
       const [templateDoc, previousLogDoc] = await Promise.all([
-        WorkoutTemplate.findById(inProgressLogDoc.workoutTemplateId).populate(
-          "exercises.exerciseId"
-        ),
+        WorkoutTemplate.findOne({
+          _id: inProgressLogDoc.workoutTemplateId,
+          userId,
+        }).populate("exercises.exerciseId"),
         WorkoutLog.findOne({
           workoutTemplateId: inProgressLogDoc.workoutTemplateId,
+          userId,
           status: "completed",
         }).sort({ date: -1 }),
       ]);
@@ -66,12 +69,16 @@ export default async function WorkoutsPage() {
     }
 
     const [workoutPlanDoc, planExercisesDoc, previousLogDoc] = await Promise.all([
-      WorkoutPlan.findById(inProgressLogDoc.workoutPlanId),
-      WorkoutPlanExercise.find({ workoutPlanId: inProgressLogDoc.workoutPlanId })
+      WorkoutPlan.findOne({ _id: inProgressLogDoc.workoutPlanId, userId }),
+      WorkoutPlanExercise.find({
+        workoutPlanId: inProgressLogDoc.workoutPlanId,
+        userId,
+      })
         .sort({ order: 1 })
         .populate("exerciseId"),
       WorkoutLog.findOne({
         workoutPlanId: inProgressLogDoc.workoutPlanId,
+        userId,
         status: "completed",
       }).sort({ date: -1 }),
     ]);
@@ -98,13 +105,15 @@ export default async function WorkoutsPage() {
     );
   }
 
-  const activePrograms = await Program.find({ status: "active" }).sort({
+  const activePrograms = await Program.find({ userId, status: "active" }).sort({
     name: 1,
   });
   const activeProgramIds = activePrograms.map((program) => program._id);
   const [workoutPlans, workoutTemplates] = await Promise.all([
-    WorkoutPlan.find({ programId: { $in: activeProgramIds } }).sort({ day: 1 }),
-    WorkoutTemplate.find({ userId: CURRENT_USER_ID }).sort({ name: 1 }),
+    WorkoutPlan.find({ programId: { $in: activeProgramIds }, userId }).sort({
+      day: 1,
+    }),
+    WorkoutTemplate.find({ userId }).sort({ name: 1 }),
   ]);
 
   return (

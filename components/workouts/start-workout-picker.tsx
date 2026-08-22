@@ -8,7 +8,6 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { apiRequest } from "@/lib/api-client";
-import { CURRENT_USER_ID } from "@/lib/constants";
 import type { ProgramRow, WorkoutPlanRow, WorkoutTemplateRow } from "@/types";
 
 interface StartWorkoutPickerProps {
@@ -32,7 +31,6 @@ export function StartWorkoutPicker({
       await apiRequest("/api/workout-logs", {
         method: "POST",
         body: JSON.stringify({
-          userId: CURRENT_USER_ID,
           ...body,
           date: new Date().toISOString(),
         }),

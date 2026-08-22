@@ -9,7 +9,6 @@ import { DataTable } from "@/components/data-table";
 import { ConfirmDeleteDialog } from "@/components/confirm-delete-dialog";
 import { WeightChart } from "@/components/dashboard/weight-chart";
 import { apiRequest } from "@/lib/api-client";
-import { CURRENT_USER_ID } from "@/lib/constants";
 import type { BodyWeightRow } from "@/types";
 import { BodyWeightForm } from "./body-weight-form";
 import { getBodyWeightColumns } from "./body-weight-columns";
@@ -31,9 +30,7 @@ export function BodyWeightTab({ initialEntries }: BodyWeightTabProps) {
   const refetch = useCallback(async () => {
     setIsLoading(true);
     try {
-      const items = await apiRequest<BodyWeightRow[]>(
-        `/api/body-weight?userId=${CURRENT_USER_ID}`
-      );
+      const items = await apiRequest<BodyWeightRow[]>("/api/body-weight");
       setEntries(items);
     } catch (error) {
       toast.error(

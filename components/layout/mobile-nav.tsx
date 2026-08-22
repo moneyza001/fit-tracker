@@ -14,6 +14,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { NAV_ITEMS, isNavItemActive } from "./nav-items";
+import { UserMenu } from "./user-menu";
 
 export function MobileNav() {
   const pathname = usePathname();
@@ -59,6 +60,9 @@ export function MobileNav() {
               );
             })}
           </nav>
+          <div className="mt-auto border-t border-border p-2">
+            <UserMenu />
+          </div>
         </SheetContent>
       </Sheet>
     </header>

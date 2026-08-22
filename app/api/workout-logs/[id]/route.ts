@@ -3,15 +3,17 @@ import { connectToDatabase } from "@/lib/db";
 import { WorkoutLog } from "@/models";
 import { workoutLogUpdateSchema } from "@/lib/validations";
 import { apiSuccess, apiError, handleApiError } from "@/lib/api-response";
+import { requireUserId } from "@/lib/auth-guard";
 
 type RouteContext = { params: Promise<{ id: string }> };
 
 export async function GET(_request: NextRequest, { params }: RouteContext) {
   try {
     await connectToDatabase();
+    const userId = await requireUserId();
     const { id } = await params;
 
-    const workoutLog = await WorkoutLog.findById(id);
+    const workoutLog = await WorkoutLog.findOne({ _id: id, userId });
     if (!workoutLog) {
       return apiError("Workout log not found", 404);
     }
@@ -25,11 +27,12 @@ export async function GET(_request: NextRequest, { params }: RouteContext) {
 export async function PATCH(request: NextRequest, { params }: RouteContext) {
   try {
     await connectToDatabase();
+    const userId = await requireUserId();
     const { id } = await params;
 
     const body = workoutLogUpdateSchema.parse(await request.json());
 
-    const existing = await WorkoutLog.findById(id);
+    const existing = await WorkoutLog.findOne({ _id: id, userId });
     if (!existing) {
       return apiError("Workout log not found", 404);
     }
@@ -37,7 +40,7 @@ export async function PATCH(request: NextRequest, { params }: RouteContext) {
       return apiError("Cannot edit a completed workout log", 409);
     }
 
-    const workoutLog = await WorkoutLog.findByIdAndUpdate(id, body, {
+    const workoutLog = await WorkoutLog.findOneAndUpdate({ _id: id, userId }, body, {
       new: true,
       runValidators: true,
     });
@@ -51,9 +54,10 @@ export async function PATCH(request: NextRequest, { params }: RouteContext) {
 export async function DELETE(_request: NextRequest, { params }: RouteContext) {
   try {
     await connectToDatabase();
+    const userId = await requireUserId();
     const { id } = await params;
 
-    const workoutLog = await WorkoutLog.findByIdAndDelete(id);
+    const workoutLog = await WorkoutLog.findOneAndDelete({ _id: id, userId });
     if (!workoutLog) {
       return apiError("Workout log not found", 404);
     }

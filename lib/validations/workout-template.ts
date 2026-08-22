@@ -9,15 +9,12 @@ export const workoutTemplateExerciseSchema = z.object({
 });
 
 export const workoutTemplateSchema = z.object({
-  userId: z.string().min(1),
   name: z.string().trim().min(1).max(100),
   description: z.string().trim().max(500).optional(),
   exercises: z.array(workoutTemplateExerciseSchema).default([]),
 });
 
-export const workoutTemplateUpdateSchema = workoutTemplateSchema
-  .omit({ userId: true })
-  .partial();
+export const workoutTemplateUpdateSchema = workoutTemplateSchema.partial();
 
 export type WorkoutTemplateExerciseInput = z.infer<
   typeof workoutTemplateExerciseSchema

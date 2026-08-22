@@ -39,7 +39,7 @@ const WorkoutTemplateExerciseSchema = new Schema<IWorkoutTemplateExercise>(
 
 const WorkoutTemplateSchema = new Schema<IWorkoutTemplate>(
   {
-    userId: { type: String, required: true },
+    userId: { type: String, required: true, index: true },
     name: { type: String, required: true, trim: true },
     description: { type: String, trim: true },
     exercises: {

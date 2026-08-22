@@ -1,15 +1,16 @@
 import { connectToDatabase } from "@/lib/db";
 import { WorkoutLog } from "@/models";
 import { toPlainJSON } from "@/lib/serialize";
-import { CURRENT_USER_ID } from "@/lib/constants";
+import { requireUserId } from "@/lib/auth-guard";
 import { HistoryTable, type HistoryRow } from "@/components/history/history-table";
 
 export const dynamic = "force-dynamic";
 
 export default async function HistoryPage() {
   await connectToDatabase();
+  const userId = await requireUserId();
 
-  const logsDoc = await WorkoutLog.find({ userId: CURRENT_USER_ID })
+  const logsDoc = await WorkoutLog.find({ userId })
     .sort({ date: -1 })
     .populate("workoutPlanId")
     .populate("workoutTemplateId");

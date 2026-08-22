@@ -3,7 +3,7 @@ import { Weight, Trophy, Zap } from "lucide-react";
 import { connectToDatabase } from "@/lib/db";
 import { BodyWeight, Exercise, WorkoutLog } from "@/models";
 import { toPlainJSON } from "@/lib/serialize";
-import { CURRENT_USER_ID } from "@/lib/constants";
+import { requireUserId } from "@/lib/auth-guard";
 import { buildExerciseSessionStats } from "@/lib/exercise-stats";
 import { buildBodyWeightOverlay } from "@/lib/body-weight-overlay";
 import type { BodyWeightRow, ExerciseRow, WorkoutLogRow } from "@/types";
@@ -23,18 +23,19 @@ export default async function ExerciseDetailPage({
 }) {
   const { id } = await params;
   await connectToDatabase();
+  const userId = await requireUserId();
 
-  const exerciseDoc = await Exercise.findById(id);
+  const exerciseDoc = await Exercise.findOne({ _id: id, userId });
   if (!exerciseDoc) {
     notFound();
   }
 
   const [logsDoc, bodyWeightsDoc] = await Promise.all([
     WorkoutLog.find({
-      userId: CURRENT_USER_ID,
+      userId,
       status: "completed",
     }).sort({ date: 1 }),
-    BodyWeight.find({ userId: CURRENT_USER_ID }).sort({ date: 1 }),
+    BodyWeight.find({ userId }).sort({ date: 1 }),
   ]);
 
   const exercise = toPlainJSON<ExerciseRow>(exerciseDoc);

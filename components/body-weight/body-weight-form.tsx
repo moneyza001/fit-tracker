@@ -6,7 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
 import { apiRequest } from "@/lib/api-client";
-import { CURRENT_USER_ID } from "@/lib/constants";
 import type { BodyWeightRow } from "@/types";
 import {
   Dialog,
@@ -91,7 +90,7 @@ export function BodyWeightForm({
       } else {
         await apiRequest("/api/body-weight", {
           method: "POST",
-          body: JSON.stringify({ ...body, userId: CURRENT_USER_ID }),
+          body: JSON.stringify(body),
         });
         toast.success("Weight logged");
       }

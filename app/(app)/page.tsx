@@ -11,7 +11,7 @@ import {
 import { connectToDatabase } from "@/lib/db";
 import { Program, WorkoutLog, BodyWeight, PersonalRecord } from "@/models";
 import { toPlainJSON } from "@/lib/serialize";
-import { CURRENT_USER_ID } from "@/lib/constants";
+import { requireUserId } from "@/lib/auth-guard";
 import {
   calculateStreak,
   calculateTotalVolume,
@@ -39,16 +39,17 @@ export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
   await connectToDatabase();
+  const userId = await requireUserId();
 
   const [completedLogsDoc, activeProgramsDoc, bodyWeightsDoc, recentPRsDoc] =
     await Promise.all([
-      WorkoutLog.find({ userId: CURRENT_USER_ID, status: "completed" })
+      WorkoutLog.find({ userId, status: "completed" })
         .sort({ date: -1 })
         .populate("workoutPlanId")
         .populate("workoutTemplateId"),
-      Program.find({ status: "active" }).sort({ name: 1 }),
-      BodyWeight.find({ userId: CURRENT_USER_ID }).sort({ date: 1 }),
-      PersonalRecord.find({ userId: CURRENT_USER_ID })
+      Program.find({ userId, status: "active" }).sort({ name: 1 }),
+      BodyWeight.find({ userId }).sort({ date: 1 }),
+      PersonalRecord.find({ userId })
         .sort({ achievedAt: -1 })
         .limit(5)
         .populate("exerciseId"),

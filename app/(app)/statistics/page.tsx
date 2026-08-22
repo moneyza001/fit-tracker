@@ -1,7 +1,7 @@
 import { connectToDatabase } from "@/lib/db";
 import { BodyWeight, Exercise, WorkoutLog } from "@/models";
 import { toPlainJSON } from "@/lib/serialize";
-import { CURRENT_USER_ID } from "@/lib/constants";
+import { requireUserId } from "@/lib/auth-guard";
 import {
   aggregateMuscleGroupVolume,
   buildConsistencyHeatmap,
@@ -18,11 +18,12 @@ export const dynamic = "force-dynamic";
 
 export default async function StatisticsPage() {
   await connectToDatabase();
+  const userId = await requireUserId();
 
   const [logsDoc, bodyWeightsDoc, exercisesDoc] = await Promise.all([
-    WorkoutLog.find({ userId: CURRENT_USER_ID, status: "completed" }).sort({ date: 1 }),
-    BodyWeight.find({ userId: CURRENT_USER_ID }).sort({ date: 1 }),
-    Exercise.find({}),
+    WorkoutLog.find({ userId, status: "completed" }).sort({ date: 1 }),
+    BodyWeight.find({ userId }).sort({ date: 1 }),
+    Exercise.find({ userId }),
   ]);
 
   const logs = toPlainJSON<WorkoutLogRow[]>(logsDoc);

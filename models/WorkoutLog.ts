@@ -62,7 +62,7 @@ const WorkoutLogExerciseSchema = new Schema<IWorkoutLogExercise>(
 
 const WorkoutLogSchema = new Schema<IWorkoutLog>(
   {
-    userId: { type: String, required: true },
+    userId: { type: String, required: true, index: true },
     workoutPlanId: {
       type: Schema.Types.ObjectId,
       ref: "WorkoutPlan",
