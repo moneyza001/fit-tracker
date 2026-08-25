@@ -7,7 +7,7 @@ import {
   WorkoutLog,
 } from "@/models";
 import { toPlainJSON } from "@/lib/serialize";
-import { buildSessionExercises } from "@/lib/workout-session";
+import { buildPreviousSetsByExercise, buildSessionExercises } from "@/lib/workout-session";
 import { requireUserId } from "@/lib/auth-guard";
 import type {
   ProgramRow,
@@ -33,28 +33,26 @@ export default async function WorkoutsPage() {
   if (inProgressLogDoc) {
     const currentLog = toPlainJSON<WorkoutLogRow>(inProgressLogDoc);
 
-    if (inProgressLogDoc.workoutTemplateId) {
-      const [templateDoc, previousLogDoc] = await Promise.all([
-        WorkoutTemplate.findOne({
-          _id: inProgressLogDoc.workoutTemplateId,
-          userId,
-        }).populate("exercises.exerciseId"),
-        WorkoutLog.findOne({
-          workoutTemplateId: inProgressLogDoc.workoutTemplateId,
-          userId,
-          status: "completed",
-        }).sort({ date: -1 }),
-      ]);
+    const completedLogsDoc = await WorkoutLog.find({
+      userId,
+      status: "completed",
+    }).sort({ date: -1 });
+    const previousSetsByExercise = buildPreviousSetsByExercise(
+      toPlainJSON<WorkoutLogRow[]>(completedLogsDoc)
+    );
 
-      const previousLog = previousLogDoc
-        ? toPlainJSON<WorkoutLogRow>(previousLogDoc)
-        : null;
+    if (inProgressLogDoc.workoutTemplateId) {
+      const templateDoc = await WorkoutTemplate.findOne({
+        _id: inProgressLogDoc.workoutTemplateId,
+        userId,
+      }).populate("exercises.exerciseId");
+
       const template = toPlainJSON<WorkoutTemplateRow>(templateDoc);
 
       const sessionExercises = buildSessionExercises(
         template.exercises,
         currentLog,
-        previousLog
+        previousSetsByExercise
       );
 
       return (
@@ -68,7 +66,7 @@ export default async function WorkoutsPage() {
       );
     }
 
-    const [workoutPlanDoc, planExercisesDoc, previousLogDoc] = await Promise.all([
+    const [workoutPlanDoc, planExercisesDoc] = await Promise.all([
       WorkoutPlan.findOne({ _id: inProgressLogDoc.workoutPlanId, userId }),
       WorkoutPlanExercise.find({
         workoutPlanId: inProgressLogDoc.workoutPlanId,
@@ -76,22 +74,14 @@ export default async function WorkoutsPage() {
       })
         .sort({ order: 1 })
         .populate("exerciseId"),
-      WorkoutLog.findOne({
-        workoutPlanId: inProgressLogDoc.workoutPlanId,
-        userId,
-        status: "completed",
-      }).sort({ date: -1 }),
     ]);
 
-    const previousLog = previousLogDoc
-      ? toPlainJSON<WorkoutLogRow>(previousLogDoc)
-      : null;
     const planExercises = toPlainJSON<WorkoutPlanExerciseRow[]>(planExercisesDoc);
 
     const sessionExercises = buildSessionExercises(
       planExercises,
       currentLog,
-      previousLog
+      previousSetsByExercise
     );
 
     return (

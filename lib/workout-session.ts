@@ -1,4 +1,4 @@
-import type { WorkoutLogExerciseRow, WorkoutLogRow } from "@/types";
+import type { WorkoutLogExerciseRow, WorkoutLogRow, WorkoutSetRow } from "@/types";
 import type { WorkoutLogExerciseInput } from "@/lib/validations";
 
 export interface SessionTargetExercise {
@@ -40,15 +40,32 @@ function findExerciseEntry(
   return log?.exercises.find((entry) => entry.exerciseId === exerciseId);
 }
 
+// Tracks, per exercise, the sets from the most recent completed workout
+// that included it — regardless of which plan/template that workout was
+// logged under, so e.g. "Calf Raise" shows its last weight whether it was
+// last done as part of Leg A or Leg B.
+export function buildPreviousSetsByExercise(
+  completedLogsNewestFirst: WorkoutLogRow[]
+): Map<string, WorkoutSetRow[]> {
+  const map = new Map<string, WorkoutSetRow[]>();
+  for (const log of completedLogsNewestFirst) {
+    for (const entry of log.exercises) {
+      if (map.has(entry.exerciseId) || entry.sets.length === 0) continue;
+      map.set(entry.exerciseId, entry.sets);
+    }
+  }
+  return map;
+}
+
 export function buildSessionExercises(
   planExercises: SessionTargetExercise[],
   currentLog: WorkoutLogRow | null,
-  previousLog: WorkoutLogRow | null
+  previousSetsByExercise: Map<string, WorkoutSetRow[]>
 ): SessionExercise[] {
   return planExercises.map((planExercise) => {
     const exerciseId = planExercise.exerciseId._id;
     const currentEntry = findExerciseEntry(currentLog, exerciseId);
-    const previousEntry = findExerciseEntry(previousLog, exerciseId);
+    const previousSets = previousSetsByExercise.get(exerciseId) ?? [];
 
     const rowCount = Math.max(
       planExercise.targetSets,
@@ -71,9 +88,7 @@ export function buildSessionExercises(
           };
         }
 
-        const previousSet = previousEntry?.sets.find(
-          (s) => s.set === setNumber
-        );
+        const previousSet = previousSets.find((s) => s.set === setNumber);
         return {
           set: setNumber,
           reps: previousSet?.reps ?? planExercise.targetReps,
@@ -91,7 +106,7 @@ export function buildSessionExercises(
       targetWeight: planExercise.targetWeight,
       note: currentEntry?.note ?? "",
       sets,
-      previousSets: (previousEntry?.sets ?? []).map((s) => ({
+      previousSets: previousSets.map((s) => ({
         reps: s.reps,
         weight: s.weight,
       })),
