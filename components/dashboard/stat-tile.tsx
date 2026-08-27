@@ -18,7 +18,7 @@ const ACCENT_CLASSES: Record<NonNullable<StatTileProps["accent"]>, string> = {
 export function StatTile({ label, value, icon: Icon, accent = "default" }: StatTileProps) {
   return (
     <Card>
-      <CardContent className="flex items-center gap-3">
+      <CardContent className="flex flex-col items-start gap-3 sm:flex-row sm:items-center">
         <div className={cn("flex size-10 shrink-0 items-center justify-center rounded-lg", ACCENT_CLASSES[accent])}>
           <Icon className="size-5" />
         </div>
