@@ -1,9 +1,10 @@
 "use client";
 
-import { useCallback, useState } from "react";
-import { Plus } from "lucide-react";
+import { useCallback, useMemo, useState } from "react";
+import { Plus, Search } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { DataTable } from "@/components/data-table";
 import { ConfirmDeleteDialog } from "@/components/confirm-delete-dialog";
 import { apiRequest } from "@/lib/api-client";
@@ -26,6 +27,18 @@ export function ExercisesTab({
     null
   );
   const [isDeleting, setIsDeleting] = useState(false);
+  const [search, setSearch] = useState("");
+
+  const filteredExercises = useMemo(() => {
+    const query = search.trim().toLowerCase();
+    if (!query) return exercises;
+    return exercises.filter((exercise) =>
+      [exercise.name, exercise.muscleGroup, exercise.equipment, exercise.type]
+        .join(" ")
+        .toLowerCase()
+        .includes(query)
+    );
+  }, [exercises, search]);
 
   const refetch = useCallback(async () => {
     setIsLoading(true);
@@ -77,7 +90,16 @@ export function ExercisesTab({
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-end">
+      <div className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="relative w-full sm:max-w-xs">
+          <Search className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search exercises..."
+            className="pl-8"
+          />
+        </div>
         <Button onClick={handleAdd}>
           <Plus className="size-4" />
           Add Exercise
@@ -85,9 +107,13 @@ export function ExercisesTab({
       </div>
       <DataTable
         columns={columns}
-        data={exercises}
+        data={filteredExercises}
         isLoading={isLoading}
-        emptyMessage="No exercises yet. Add one to build your library."
+        emptyMessage={
+          search
+            ? "No exercises match your search."
+            : "No exercises yet. Add one to build your library."
+        }
       />
       <ExerciseForm
         open={formOpen}
