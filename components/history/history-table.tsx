@@ -1,8 +1,11 @@
 "use client";
 
+import { useMemo, useState } from "react";
 import type { LegacyColumnDef } from "@tanstack/react-table/legacy";
+import { Search } from "lucide-react";
 import { DataTable } from "@/components/data-table";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { calculateTotalVolume } from "@/lib/dashboard-stats";
 import type { WorkoutLogRow } from "@/types";
 
@@ -64,11 +67,46 @@ const columns: LegacyColumnDef<HistoryRow, unknown>[] = [
 ];
 
 export function HistoryTable({ logs }: { logs: HistoryRow[] }) {
+  const [search, setSearch] = useState("");
+
+  const filteredLogs = useMemo(() => {
+    const query = search.trim().toLowerCase();
+    if (!query) return logs;
+    return logs.filter((log) =>
+      [
+        log.workoutPlanName,
+        log.status === "completed" ? "completed" : "in progress",
+        log.overallNote ?? "",
+        new Date(log.date).toLocaleDateString(undefined, {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        }),
+      ]
+        .join(" ")
+        .toLowerCase()
+        .includes(query)
+    );
+  }, [logs, search]);
+
   return (
-    <DataTable
-      columns={columns}
-      data={logs}
-      emptyMessage="No workout history yet."
-    />
+    <div className="space-y-4">
+      <div className="relative w-full sm:max-w-xs">
+        <Search className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+        <Input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search history..."
+          className="pl-8"
+        />
+      </div>
+      <DataTable
+        columns={columns}
+        data={filteredLogs}
+        emptyMessage={
+          search ? "No workouts match your search." : "No workout history yet."
+        }
+      />
+    </div>
   );
 }
