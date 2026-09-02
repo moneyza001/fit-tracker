@@ -7,6 +7,7 @@ import { authConfig } from "@/auth.config";
 import { connectToDatabase } from "@/lib/db";
 import { User } from "@/models";
 import { credentialsSignInSchema } from "@/lib/validations";
+import { seedDefaultExercises } from "@/lib/seed-exercises";
 
 const providers: Provider[] = [
   Credentials({
@@ -53,6 +54,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             name: profile.name ?? undefined,
             image: picture,
           });
+          await seedDefaultExercises(dbUser._id.toString());
         } else if (!dbUser.image && picture) {
           dbUser.image = picture;
           await dbUser.save();

@@ -4,6 +4,7 @@ import { connectToDatabase } from "@/lib/db";
 import { User } from "@/models";
 import { signupSchema } from "@/lib/validations";
 import { apiSuccess, apiError, handleApiError } from "@/lib/api-response";
+import { seedDefaultExercises } from "@/lib/seed-exercises";
 
 export async function POST(request: NextRequest) {
   try {
@@ -24,7 +25,8 @@ export async function POST(request: NextRequest) {
       if (name) existing.name = name;
       await existing.save();
     } else {
-      await User.create({ email, passwordHash, name });
+      const created = await User.create({ email, passwordHash, name });
+      await seedDefaultExercises(created._id.toString());
     }
 
     return apiSuccess({ email }, 201);
