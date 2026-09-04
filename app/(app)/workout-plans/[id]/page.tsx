@@ -4,7 +4,12 @@ import { notFound } from "next/navigation";
 import { connectToDatabase } from "@/lib/db";
 import { Exercise, WorkoutPlan, WorkoutPlanExercise } from "@/models";
 import { toPlainJSON } from "@/lib/serialize";
-import type { ExerciseRow, WorkoutPlanExerciseRow, WorkoutPlanRow } from "@/types";
+import { requireUserId } from "@/lib/auth-guard";
+import type {
+  ExerciseRow,
+  WorkoutPlanExerciseRow,
+  WorkoutPlanRow,
+} from "@/types";
 import { WorkoutPlanExercisesTab } from "@/components/workout-plan-exercises/workout-plan-exercises-tab";
 
 export const dynamic = "force-dynamic";
@@ -16,17 +21,18 @@ export default async function WorkoutPlanDetailPage({
 }) {
   const { id } = await params;
   await connectToDatabase();
+  const userId = await requireUserId();
 
-  const workoutPlanDoc = await WorkoutPlan.findById(id);
+  const workoutPlanDoc = await WorkoutPlan.findOne({ _id: id, userId });
   if (!workoutPlanDoc) {
     notFound();
   }
 
   const [planExercisesDoc, exercisesDoc] = await Promise.all([
-    WorkoutPlanExercise.find({ workoutPlanId: id })
+    WorkoutPlanExercise.find({ workoutPlanId: id, userId })
       .sort({ order: 1 })
       .populate("exerciseId"),
-    Exercise.find().sort({ name: 1 }),
+    Exercise.find({ userId }).sort({ name: 1 }),
   ]);
 
   const workoutPlan = toPlainJSON<WorkoutPlanRow>(workoutPlanDoc);
