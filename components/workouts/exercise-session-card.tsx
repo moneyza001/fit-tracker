@@ -90,6 +90,7 @@ export function ExerciseSessionCard({
             {exercise.previousSets
               .map((set) => `${set.weight}kg × ${set.reps}`)
               .join(", ")}
+            {exercise.previousNote && ` — "${exercise.previousNote}"`}
           </p>
         )}
       </CardHeader>

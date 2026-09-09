@@ -31,6 +31,12 @@ export interface SessionExercise {
   note: string;
   sets: SessionSetRow[];
   previousSets: PreviousSetRow[];
+  previousNote?: string;
+}
+
+interface PreviousExerciseEntry {
+  sets: WorkoutSetRow[];
+  note?: string;
 }
 
 function findExerciseEntry(
@@ -46,12 +52,12 @@ function findExerciseEntry(
 // last done as part of Leg A or Leg B.
 export function buildPreviousSetsByExercise(
   completedLogsNewestFirst: WorkoutLogRow[]
-): Map<string, WorkoutSetRow[]> {
-  const map = new Map<string, WorkoutSetRow[]>();
+): Map<string, PreviousExerciseEntry> {
+  const map = new Map<string, PreviousExerciseEntry>();
   for (const log of completedLogsNewestFirst) {
     for (const entry of log.exercises) {
       if (map.has(entry.exerciseId) || entry.sets.length === 0) continue;
-      map.set(entry.exerciseId, entry.sets);
+      map.set(entry.exerciseId, { sets: entry.sets, note: entry.note });
     }
   }
   return map;
@@ -60,12 +66,13 @@ export function buildPreviousSetsByExercise(
 export function buildSessionExercises(
   planExercises: SessionTargetExercise[],
   currentLog: WorkoutLogRow | null,
-  previousSetsByExercise: Map<string, WorkoutSetRow[]>
+  previousSetsByExercise: Map<string, PreviousExerciseEntry>
 ): SessionExercise[] {
   return planExercises.map((planExercise) => {
     const exerciseId = planExercise.exerciseId._id;
     const currentEntry = findExerciseEntry(currentLog, exerciseId);
-    const previousSets = previousSetsByExercise.get(exerciseId) ?? [];
+    const previousEntry = previousSetsByExercise.get(exerciseId);
+    const previousSets = previousEntry?.sets ?? [];
 
     const rowCount = Math.max(
       planExercise.targetSets,
@@ -110,6 +117,7 @@ export function buildSessionExercises(
         reps: s.reps,
         weight: s.weight,
       })),
+      previousNote: previousEntry?.note,
     };
   });
 }
