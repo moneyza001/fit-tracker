@@ -56,7 +56,7 @@ export function WorkoutTemplateExercisesTab({
       setTemplateExercises(updated.exercises);
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Failed to save changes"
+        error instanceof Error ? error.message : "บันทึกการเปลี่ยนแปลงไม่สำเร็จ"
       );
     } finally {
       setIsSaving(false);
@@ -86,7 +86,7 @@ export function WorkoutTemplateExercisesTab({
     }
 
     await persist(next);
-    toast.success(editingIndex !== null ? "Exercise updated" : "Exercise added");
+    toast.success(editingIndex !== null ? "อัปเดตท่าออกกำลังกายแล้ว" : "เพิ่มท่าออกกำลังกายแล้ว");
     setFormOpen(false);
   }
 
@@ -94,7 +94,7 @@ export function WorkoutTemplateExercisesTab({
     if (deletingIndex === null) return;
     const next = templateExercises.filter((_, i) => i !== deletingIndex);
     await persist(next);
-    toast.success("Exercise removed");
+    toast.success("ลบท่าออกกำลังกายแล้ว");
     setDeletingIndex(null);
   }
 
@@ -119,19 +119,19 @@ export function WorkoutTemplateExercisesTab({
       <div className="flex justify-end">
         <Button onClick={handleAdd} disabled={exercises.length === 0}>
           <Plus className="size-4" />
-          Add Exercise
+          เพิ่มท่าออกกำลังกาย
         </Button>
       </div>
       {exercises.length === 0 && (
         <p className="text-sm text-muted-foreground">
-          Create an exercise first before adding it to this template.
+          สร้างท่าออกกำลังกายก่อน จึงจะเพิ่มลงในเทมเพลตนี้ได้
         </p>
       )}
       <DataTable
         columns={columns}
         data={templateExercises}
         isLoading={isSaving}
-        emptyMessage="No exercises in this template yet."
+        emptyMessage="ยังไม่มีท่าออกกำลังกายในเทมเพลตนี้"
       />
       <WorkoutTemplateExerciseForm
         open={formOpen}
@@ -144,10 +144,10 @@ export function WorkoutTemplateExercisesTab({
       <ConfirmDeleteDialog
         open={deletingIndex !== null}
         onOpenChange={(open) => !open && setDeletingIndex(null)}
-        title="Remove exercise from template?"
+        title="ลบท่าออกกำลังกายออกจากเทมเพลตนี้?"
         description={
           deletingIndex !== null
-            ? `This will remove "${templateExercises[deletingIndex].exerciseId.name}" from this template.`
+            ? `การดำเนินการนี้จะลบ "${templateExercises[deletingIndex].exerciseId.name}" ออกจากเทมเพลตนี้`
             : ""
         }
         onConfirm={handleDeleteConfirm}

@@ -88,7 +88,7 @@ export function GlobalMetricChart({ bodyWeights, series }: GlobalMetricChartProp
 
       {isEmpty ? (
         <div className="flex h-56 items-center justify-center text-sm text-muted-foreground">
-          Not enough data yet.
+          ข้อมูลยังไม่เพียงพอ
         </div>
       ) : (
         <div className="h-56">

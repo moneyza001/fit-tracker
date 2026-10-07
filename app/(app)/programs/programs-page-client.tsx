@@ -59,17 +59,17 @@ export function ProgramsPageClient({
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold">Programs</h1>
+        <h1 className="text-2xl font-semibold">โปรแกรม</h1>
         <p className="text-sm text-muted-foreground">
-          Manage your training programs, workout plans, and exercise library.
+          จัดการโปรแกรมการฝึก แผนการฝึก และคลังท่าออกกำลังกายของคุณ
         </p>
       </div>
       <Tabs value={tab} onValueChange={handleTabChange}>
         <TabsList>
-          <TabsTrigger value="programs">Programs</TabsTrigger>
-          <TabsTrigger value="workout-plans">Workout Plans</TabsTrigger>
-          <TabsTrigger value="exercises">Exercises</TabsTrigger>
-          <TabsTrigger value="templates">Templates</TabsTrigger>
+          <TabsTrigger value="programs">โปรแกรม</TabsTrigger>
+          <TabsTrigger value="workout-plans">แผนการฝึก</TabsTrigger>
+          <TabsTrigger value="exercises">ท่าออกกำลังกาย</TabsTrigger>
+          <TabsTrigger value="templates">เทมเพลต</TabsTrigger>
         </TabsList>
         <TabsContent value="programs">
           <ProgramsTab programs={programs} onProgramsChange={setPrograms} />

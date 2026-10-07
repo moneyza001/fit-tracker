@@ -86,7 +86,7 @@ export function ExerciseSessionCard({
         </div>
         {exercise.previousSets.length > 0 && (
           <p className="text-xs text-muted-foreground">
-            Last time:{" "}
+            ครั้งก่อน:{" "}
             {exercise.previousSets
               .map((set) => `${set.weight}kg × ${set.reps}`)
               .join(", ")}
@@ -98,7 +98,7 @@ export function ExerciseSessionCard({
         <div className="space-y-1.5">
           <div className={`${ROW_GRID} px-0.5 text-[11px] text-muted-foreground`}>
             <span />
-            <span>Reps</span>
+            <span>ครั้ง</span>
             <span>kg</span>
             <span>RPE</span>
             <span>RIR</span>
@@ -111,7 +111,7 @@ export function ExerciseSessionCard({
               <Input
                 type="number"
                 inputMode="numeric"
-                aria-label={`Set ${set.set} reps`}
+                aria-label={`เซ็ต ${set.set} จำนวนครั้ง`}
                 className="px-1.5 text-center"
                 value={set.reps}
                 onChange={(e) =>
@@ -123,7 +123,7 @@ export function ExerciseSessionCard({
               <Input
                 type="number"
                 inputMode="decimal"
-                aria-label={`Set ${set.set} weight`}
+                aria-label={`เซ็ต ${set.set} น้ำหนัก`}
                 className="px-1.5 text-center"
                 value={set.weight}
                 onChange={(e) =>
@@ -137,7 +137,7 @@ export function ExerciseSessionCard({
                 inputMode="numeric"
                 min={0}
                 max={10}
-                aria-label={`Set ${set.set} RPE`}
+                aria-label={`เซ็ต ${set.set} RPE`}
                 placeholder="—"
                 className="px-1 text-center"
                 value={set.rpe ?? ""}
@@ -152,7 +152,7 @@ export function ExerciseSessionCard({
                 inputMode="numeric"
                 min={0}
                 max={10}
-                aria-label={`Set ${set.set} RIR`}
+                aria-label={`เซ็ต ${set.set} RIR`}
                 placeholder="—"
                 className="px-1 text-center"
                 value={set.rir ?? ""}
@@ -166,13 +166,13 @@ export function ExerciseSessionCard({
                 className="size-5"
                 checked={set.checked}
                 onCheckedChange={(checked) => toggleSet(index, checked === true)}
-                aria-label={`Mark set ${set.set} done`}
+                aria-label={`ทำเครื่องหมายเซ็ต ${set.set} เสร็จ`}
               />
               <Button
                 variant="ghost"
                 size="icon-sm"
                 onClick={() => removeSet(index)}
-                aria-label={`Remove set ${set.set}`}
+                aria-label={`ลบเซ็ต ${set.set}`}
               >
                 <Trash2 className="size-3.5" />
               </Button>
@@ -181,10 +181,10 @@ export function ExerciseSessionCard({
         </div>
         <Button variant="outline" size="sm" onClick={addSet}>
           <Plus className="size-4" />
-          Add Set
+          เพิ่มเซ็ต
         </Button>
         <Textarea
-          placeholder="Note (optional)"
+          placeholder="โน้ต (ไม่บังคับ)"
           value={exercise.note}
           onChange={(e) => updateNote(e.target.value)}
           onBlur={onSave}

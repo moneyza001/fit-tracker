@@ -78,9 +78,9 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold">Dashboard</h1>
+        <h1 className="text-2xl font-semibold">แดชบอร์ด</h1>
         <p className="text-sm text-muted-foreground">
-          Your training at a glance.
+          ภาพรวมการฝึกของคุณ
         </p>
       </div>
 
@@ -91,20 +91,20 @@ export default async function DashboardPage() {
       />
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <StatTile label="Total Workouts" value={String(totalWorkouts)} icon={Dumbbell} />
+        <StatTile label="เวิร์คเอาท์ทั้งหมด" value={String(totalWorkouts)} icon={Dumbbell} />
         <StatTile
-          label="Total Volume"
+          label="วอลุ่มทั้งหมด"
           value={`${Math.round(totalVolume).toLocaleString()} kg`}
           icon={TrendingUp}
         />
         <StatTile
-          label="Current Streak"
-          value={`${streak} ${streak === 1 ? "day" : "days"}`}
+          label="สตรีคปัจจุบัน"
+          value={`${streak} วัน`}
           icon={Flame}
           accent={streak > 0 ? "gold" : "default"}
         />
         <StatTile
-          label="This Week"
+          label="สัปดาห์นี้"
           value={String(thisWeek)}
           icon={CalendarDays}
           accent="success"
@@ -116,7 +116,7 @@ export default async function DashboardPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Scale className="size-4" />
-              Body Weight
+              น้ำหนักตัว
             </CardTitle>
             <CardAction className="flex items-center gap-2">
               {latestWeight && (
@@ -126,7 +126,7 @@ export default async function DashboardPage() {
                 href="/body-weight"
                 className="text-sm text-muted-foreground underline-offset-2 hover:text-foreground hover:underline"
               >
-                Log Weight
+                บันทึกน้ำหนัก
               </Link>
             </CardAction>
           </CardHeader>
@@ -140,15 +140,15 @@ export default async function DashboardPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <ClipboardList className="size-4" />
-                Active Programs
+                โปรแกรมที่ใช้งานอยู่
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
               {activePrograms.length === 0 ? (
                 <p className="text-sm text-muted-foreground">
-                  No active programs.{" "}
+                  ยังไม่มีโปรแกรมที่ใช้งานอยู่{" "}
                   <Link href="/programs" className="underline">
-                    Create one
+                    สร้างเลย
                   </Link>
                   .
                 </p>
@@ -159,7 +159,7 @@ export default async function DashboardPage() {
                     className="flex items-center justify-between rounded-lg border border-border px-3 py-2 text-sm"
                   >
                     <span>{program.name}</span>
-                    <Badge>active</Badge>
+                    <Badge>ใช้งานอยู่</Badge>
                   </div>
                 ))
               )}
@@ -170,13 +170,13 @@ export default async function DashboardPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Trophy className="size-4 text-amber-500" />
-                Recent PRs
+                สถิติส่วนตัว (PR) ล่าสุด
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
               {recentPRs.length === 0 ? (
                 <p className="text-sm text-muted-foreground">
-                  No personal records yet.
+                  ยังไม่มีสถิติส่วนตัว
                 </p>
               ) : (
                 recentPRs.map((pr) => (
@@ -203,14 +203,14 @@ export default async function DashboardPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Recent Workouts</CardTitle>
+          <CardTitle>เวิร์คเอาท์ล่าสุด</CardTitle>
         </CardHeader>
         <CardContent className="space-y-2">
           {recentWorkouts.length === 0 ? (
             <p className="text-sm text-muted-foreground">
-              No completed workouts yet.{" "}
+              ยังไม่มีเวิร์คเอาท์ที่เสร็จสิ้น{" "}
               <Link href="/workouts" className="underline">
-                Start one
+                เริ่มเลย
               </Link>
               .
             </p>
@@ -226,7 +226,7 @@ export default async function DashboardPage() {
                     <p className="font-medium">
                       {log.workoutPlanId?.name ??
                         log.workoutTemplateId?.name ??
-                        "Workout"}
+                        "เวิร์คเอาท์"}
                     </p>
                     <p className="text-xs text-muted-foreground">
                       {new Date(log.date).toLocaleDateString(undefined, {
@@ -236,7 +236,7 @@ export default async function DashboardPage() {
                       })}
                     </p>
                   </div>
-                  <Badge variant="outline">{Math.round(volume)} kg volume</Badge>
+                  <Badge variant="outline">วอลุ่ม {Math.round(volume)} kg</Badge>
                 </div>
               );
             })

@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { exerciseSchema, type ExerciseInput } from "@/lib/validations";
 import { apiRequest } from "@/lib/api-client";
 import { MUSCLE_GROUPS, EQUIPMENT_TYPES, EXERCISE_TYPES, type ExerciseRow } from "@/types";
+import { EQUIPMENT_LABELS, EXERCISE_TYPE_LABELS, MUSCLE_GROUP_LABELS } from "@/lib/exercise-labels";
 import {
   Dialog,
   DialogContent,
@@ -46,13 +47,6 @@ const emptyValues: ExerciseInput = {
   type: "compound",
 };
 
-function formatLabel(value: string) {
-  return value
-    .split("_")
-    .map((word) => word[0].toUpperCase() + word.slice(1))
-    .join(" ");
-}
-
 export function ExerciseForm({
   open,
   onOpenChange,
@@ -87,19 +81,19 @@ export function ExerciseForm({
           method: "PATCH",
           body: JSON.stringify(values),
         });
-        toast.success("Exercise updated");
+        toast.success("อัปเดตท่าออกกำลังกายแล้ว");
       } else {
         await apiRequest("/api/exercises", {
           method: "POST",
           body: JSON.stringify(values),
         });
-        toast.success("Exercise created");
+        toast.success("สร้างท่าออกกำลังกายแล้ว");
       }
       onOpenChange(false);
       onSuccess();
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Something went wrong"
+        error instanceof Error ? error.message : "เกิดข้อผิดพลาด"
       );
     }
   }
@@ -108,7 +102,7 @@ export function ExerciseForm({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{isEdit ? "Edit Exercise" : "Add Exercise"}</DialogTitle>
+          <DialogTitle>{isEdit ? "แก้ไขท่าออกกำลังกาย" : "เพิ่มท่าออกกำลังกาย"}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -117,9 +111,9 @@ export function ExerciseForm({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>ชื่อ</FormLabel>
                   <FormControl>
-                    <Input placeholder="Bench Press" {...field} />
+                    <Input placeholder="เบนช์เพรส" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -130,24 +124,24 @@ export function ExerciseForm({
               name="muscleGroup"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Muscle Group</FormLabel>
+                  <FormLabel>กลุ่มกล้ามเนื้อ</FormLabel>
                   <Select
                     items={MUSCLE_GROUPS.map((group) => ({
                       value: group,
-                      label: formatLabel(group),
+                      label: MUSCLE_GROUP_LABELS[group],
                     }))}
                     value={field.value}
                     onValueChange={field.onChange}
                   >
                     <FormControl>
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select muscle group" />
+                        <SelectValue placeholder="เลือกกลุ่มกล้ามเนื้อ" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
                       {MUSCLE_GROUPS.map((group) => (
                         <SelectItem key={group} value={group}>
-                          {formatLabel(group)}
+                          {MUSCLE_GROUP_LABELS[group]}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -161,24 +155,24 @@ export function ExerciseForm({
               name="equipment"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Equipment</FormLabel>
+                  <FormLabel>อุปกรณ์</FormLabel>
                   <Select
                     items={EQUIPMENT_TYPES.map((equipment) => ({
                       value: equipment,
-                      label: formatLabel(equipment),
+                      label: EQUIPMENT_LABELS[equipment],
                     }))}
                     value={field.value}
                     onValueChange={field.onChange}
                   >
                     <FormControl>
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select equipment" />
+                        <SelectValue placeholder="เลือกอุปกรณ์" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
                       {EQUIPMENT_TYPES.map((equipment) => (
                         <SelectItem key={equipment} value={equipment}>
-                          {formatLabel(equipment)}
+                          {EQUIPMENT_LABELS[equipment]}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -192,24 +186,24 @@ export function ExerciseForm({
               name="type"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Type</FormLabel>
+                  <FormLabel>ประเภท</FormLabel>
                   <Select
                     items={EXERCISE_TYPES.map((type) => ({
                       value: type,
-                      label: formatLabel(type),
+                      label: EXERCISE_TYPE_LABELS[type],
                     }))}
                     value={field.value}
                     onValueChange={field.onChange}
                   >
                     <FormControl>
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select type" />
+                        <SelectValue placeholder="เลือกประเภท" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
                       {EXERCISE_TYPES.map((type) => (
                         <SelectItem key={type} value={type}>
-                          {formatLabel(type)}
+                          {EXERCISE_TYPE_LABELS[type]}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -224,10 +218,10 @@ export function ExerciseForm({
                 variant="outline"
                 onClick={() => onOpenChange(false)}
               >
-                Cancel
+                ยกเลิก
               </Button>
               <Button type="submit" disabled={form.formState.isSubmitting}>
-                {isEdit ? "Save changes" : "Create"}
+                {isEdit ? "บันทึกการเปลี่ยนแปลง" : "สร้าง"}
               </Button>
             </DialogFooter>
           </form>

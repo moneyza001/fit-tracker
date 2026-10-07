@@ -16,7 +16,7 @@ export interface HistoryRow extends WorkoutLogRow {
 const columns: LegacyColumnDef<HistoryRow, unknown>[] = [
   {
     accessorKey: "date",
-    header: "Date",
+    header: "วันที่",
     cell: ({ row }) =>
       new Date(row.original.date).toLocaleDateString(undefined, {
         year: "numeric",
@@ -26,23 +26,23 @@ const columns: LegacyColumnDef<HistoryRow, unknown>[] = [
   },
   {
     accessorKey: "workoutPlanName",
-    header: "Plan",
+    header: "แผนการฝึก",
     cell: ({ row }) => (
       <span className="font-medium">{row.original.workoutPlanName}</span>
     ),
   },
   {
     accessorKey: "status",
-    header: "Status",
+    header: "สถานะ",
     cell: ({ row }) => (
       <Badge variant={row.original.status === "completed" ? "default" : "secondary"}>
-        {row.original.status === "completed" ? "completed" : "in progress"}
+        {row.original.status === "completed" ? "เสร็จสิ้น" : "กำลังดำเนินการ"}
       </Badge>
     ),
   },
   {
     id: "sets",
-    header: "Sets",
+    header: "เซ็ต",
     cell: ({ row }) =>
       row.original.exercises.reduce(
         (sum, exercise) => sum + exercise.sets.length,
@@ -51,13 +51,13 @@ const columns: LegacyColumnDef<HistoryRow, unknown>[] = [
   },
   {
     id: "volume",
-    header: "Volume",
+    header: "วอลุ่ม",
     cell: ({ row }) =>
       `${Math.round(calculateTotalVolume([row.original])).toLocaleString()} kg`,
   },
   {
     accessorKey: "overallNote",
-    header: "Note",
+    header: "โน้ต",
     cell: ({ row }) => (
       <span className="line-clamp-1 text-muted-foreground">
         {row.original.overallNote || "—"}
@@ -75,7 +75,7 @@ export function HistoryTable({ logs }: { logs: HistoryRow[] }) {
     return logs.filter((log) =>
       [
         log.workoutPlanName,
-        log.status === "completed" ? "completed" : "in progress",
+        log.status === "completed" ? "เสร็จสิ้น" : "กำลังดำเนินการ",
         log.overallNote ?? "",
         new Date(log.date).toLocaleDateString(undefined, {
           year: "numeric",
@@ -96,7 +96,7 @@ export function HistoryTable({ logs }: { logs: HistoryRow[] }) {
         <Input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search history..."
+          placeholder="ค้นหาประวัติ..."
           className="pl-8"
         />
       </div>
@@ -104,7 +104,7 @@ export function HistoryTable({ logs }: { logs: HistoryRow[] }) {
         columns={columns}
         data={filteredLogs}
         emptyMessage={
-          search ? "No workouts match your search." : "No workout history yet."
+          search ? "ไม่พบเวิร์คเอาท์ที่ตรงกับการค้นหาของคุณ" : "ยังไม่มีประวัติเวิร์คเอาท์"
         }
       />
     </div>

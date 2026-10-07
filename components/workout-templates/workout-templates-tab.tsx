@@ -40,7 +40,7 @@ export function WorkoutTemplatesTab({
       setWorkoutTemplates(templates);
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Failed to load templates"
+        error instanceof Error ? error.message : "โหลดเทมเพลตไม่สำเร็จ"
       );
     } finally {
       setIsLoading(false);
@@ -64,12 +64,12 @@ export function WorkoutTemplatesTab({
       await apiRequest(`/api/workout-templates/${deletingTemplate._id}`, {
         method: "DELETE",
       });
-      toast.success("Template deleted");
+      toast.success("ลบเทมเพลตแล้ว");
       setDeletingTemplate(null);
       refetch();
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Failed to delete template"
+        error instanceof Error ? error.message : "ลบเทมเพลตไม่สำเร็จ"
       );
     } finally {
       setIsDeleting(false);
@@ -86,14 +86,14 @@ export function WorkoutTemplatesTab({
       <div className="flex justify-end">
         <Button onClick={handleAdd}>
           <Plus className="size-4" />
-          Add Template
+          เพิ่มเทมเพลต
         </Button>
       </div>
       <DataTable
         columns={columns}
         data={workoutTemplates}
         isLoading={isLoading}
-        emptyMessage="No workout templates yet."
+        emptyMessage="ยังไม่มีเทมเพลตเวิร์คเอาท์"
       />
       <WorkoutTemplateForm
         open={formOpen}
@@ -104,8 +104,8 @@ export function WorkoutTemplatesTab({
       <ConfirmDeleteDialog
         open={Boolean(deletingTemplate)}
         onOpenChange={(open) => !open && setDeletingTemplate(null)}
-        title="Delete template?"
-        description={`This will permanently delete "${deletingTemplate?.name}".`}
+        title="ลบเทมเพลตนี้?"
+        description={`การดำเนินการนี้จะลบ "${deletingTemplate?.name}" อย่างถาวร`}
         onConfirm={handleDeleteConfirm}
         isLoading={isDeleting}
       />

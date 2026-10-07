@@ -19,7 +19,7 @@ export function WeightChart({ entries }: WeightChartProps) {
   if (entries.length === 0) {
     return (
       <div className="flex h-56 items-center justify-center text-sm text-muted-foreground">
-        No body weight entries yet.
+        ยังไม่มีข้อมูลน้ำหนักตัว
       </div>
     );
   }

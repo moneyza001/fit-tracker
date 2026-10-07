@@ -26,11 +26,11 @@ export default async function BodyWeightPage() {
           className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft className="size-4" />
-          Dashboard
+          แดชบอร์ด
         </Link>
-        <h1 className="mt-2 text-2xl font-semibold">Body Weight</h1>
+        <h1 className="mt-2 text-2xl font-semibold">น้ำหนักตัว</h1>
         <p className="text-sm text-muted-foreground">
-          Log and track your body weight over time.
+          บันทึกและติดตามน้ำหนักตัวของคุณตามเวลา
         </p>
       </div>
 

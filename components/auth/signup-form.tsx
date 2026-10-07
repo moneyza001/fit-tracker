@@ -44,7 +44,7 @@ export function SignupForm() {
       });
 
       if (result?.error) {
-        toast.error("Account created — please log in");
+        toast.error("สร้างบัญชีแล้ว — กรุณาเข้าสู่ระบบ");
         router.push("/login");
         return;
       }
@@ -53,7 +53,7 @@ export function SignupForm() {
       router.refresh();
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Something went wrong"
+        error instanceof Error ? error.message : "เกิดข้อผิดพลาดบางอย่าง"
       );
     }
   }
@@ -67,9 +67,9 @@ export function SignupForm() {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>ชื่อ</FormLabel>
                 <FormControl>
-                  <Input placeholder="Optional" {...field} />
+                  <Input placeholder="ไม่บังคับ" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -80,7 +80,7 @@ export function SignupForm() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>อีเมล</FormLabel>
                 <FormControl>
                   <Input type="email" placeholder="you@example.com" {...field} />
                 </FormControl>
@@ -93,7 +93,7 @@ export function SignupForm() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel>รหัสผ่าน</FormLabel>
                 <FormControl>
                   <Input type="password" {...field} />
                 </FormControl>
@@ -106,14 +106,14 @@ export function SignupForm() {
             className="w-full"
             disabled={form.formState.isSubmitting}
           >
-            Create account
+            สร้างบัญชี
           </Button>
         </form>
       </Form>
 
       <div className="flex items-center gap-3">
         <Separator className="flex-1" />
-        <span className="text-xs text-muted-foreground">OR</span>
+        <span className="text-xs text-muted-foreground">หรือ</span>
         <Separator className="flex-1" />
       </div>
 
@@ -123,7 +123,7 @@ export function SignupForm() {
         className="w-full"
         onClick={() => signIn("google", { callbackUrl: "/" })}
       >
-        Continue with Google
+        ดำเนินการต่อด้วย Google
       </Button>
     </div>
   );

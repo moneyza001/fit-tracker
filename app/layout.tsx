@@ -25,7 +25,7 @@ const robotoMono = Roboto_Mono({
 
 export const metadata: Metadata = {
   title: "FitTracker",
-  description: "Fitness tracking app — programs, workouts, and progress analytics",
+  description: "แอปติดตามการออกกำลังกาย — โปรแกรม เวิร์คเอาท์ และสถิติความก้าวหน้า",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
@@ -47,7 +47,7 @@ export default async function RootLayout({
 
   return (
     <html
-      lang="en"
+      lang="th"
       suppressHydrationWarning
       className={`${roboto.variable} ${robotoMono.variable}`}
     >

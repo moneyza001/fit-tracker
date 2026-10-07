@@ -11,11 +11,11 @@ export const EXERCISE_METRICS = [
 export type ExerciseMetric = (typeof EXERCISE_METRICS)[number];
 
 export const EXERCISE_METRIC_LABELS: Record<ExerciseMetric, string> = {
-  weight: "Weight",
-  volume: "Volume",
-  reps: "Reps",
-  estimated1RM: "Est. 1RM",
-  totalSets: "Total Sets",
+  weight: "น้ำหนัก",
+  volume: "วอลุ่ม",
+  reps: "ครั้ง",
+  estimated1RM: "ประมาณ 1RM",
+  totalSets: "จำนวนเซ็ตทั้งหมด",
 };
 
 export interface ExerciseSessionStat {

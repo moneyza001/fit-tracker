@@ -47,7 +47,7 @@ export function ExerciseMetricChart({ sessions }: ExerciseMetricChartProps) {
       </Tabs>
       {sessions.length === 0 ? (
         <div className="flex h-56 items-center justify-center text-sm text-muted-foreground">
-          No history yet for this exercise.
+          ยังไม่มีประวัติสำหรับท่านี้
         </div>
       ) : (
         <div className="h-56">

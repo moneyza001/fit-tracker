@@ -73,19 +73,19 @@ export function WorkoutTemplateForm({
           method: "PATCH",
           body: JSON.stringify(values),
         });
-        toast.success("Template updated");
+        toast.success("อัปเดตเทมเพลตแล้ว");
       } else {
         await apiRequest("/api/workout-templates", {
           method: "POST",
           body: JSON.stringify({ ...values, exercises: [] }),
         });
-        toast.success("Template created");
+        toast.success("สร้างเทมเพลตแล้ว");
       }
       onOpenChange(false);
       onSuccess();
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Something went wrong"
+        error instanceof Error ? error.message : "เกิดข้อผิดพลาด"
       );
     }
   }
@@ -95,7 +95,7 @@ export function WorkoutTemplateForm({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            {isEdit ? "Edit Template" : "Add Template"}
+            {isEdit ? "แก้ไขเทมเพลต" : "เพิ่มเทมเพลต"}
           </DialogTitle>
         </DialogHeader>
         <Form {...form}>
@@ -105,9 +105,9 @@ export function WorkoutTemplateForm({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>ชื่อ</FormLabel>
                   <FormControl>
-                    <Input placeholder="Full Body Blast" {...field} />
+                    <Input placeholder="เวิร์คเอาท์ทั้งตัว" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -118,9 +118,9 @@ export function WorkoutTemplateForm({
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>คำอธิบาย</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Optional description" {...field} />
+                    <Textarea placeholder="คำอธิบาย (ไม่บังคับ)" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -132,10 +132,10 @@ export function WorkoutTemplateForm({
                 variant="outline"
                 onClick={() => onOpenChange(false)}
               >
-                Cancel
+                ยกเลิก
               </Button>
               <Button type="submit" disabled={form.formState.isSubmitting}>
-                {isEdit ? "Save changes" : "Create"}
+                {isEdit ? "บันทึกการเปลี่ยนแปลง" : "สร้าง"}
               </Button>
             </DialogFooter>
           </form>

@@ -32,7 +32,7 @@ export function getWorkoutPlanExerciseColumns({
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label={`Move ${row.original.exerciseId.name} up`}
+            aria-label={`เลื่อน ${row.original.exerciseId.name} ขึ้น`}
             disabled={isFirst(row.original)}
             onClick={() => onMoveUp(row.original)}
           >
@@ -41,7 +41,7 @@ export function getWorkoutPlanExerciseColumns({
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label={`Move ${row.original.exerciseId.name} down`}
+            aria-label={`เลื่อน ${row.original.exerciseId.name} ลง`}
             disabled={isLast(row.original)}
             onClick={() => onMoveDown(row.original)}
           >
@@ -52,7 +52,7 @@ export function getWorkoutPlanExerciseColumns({
     },
     {
       accessorKey: "exerciseId",
-      header: "Exercise",
+      header: "ท่าออกกำลังกาย",
       cell: ({ row }) => (
         <div className="flex flex-wrap items-center gap-2">
           <span className="font-medium">{row.original.exerciseId.name}</span>
@@ -62,17 +62,17 @@ export function getWorkoutPlanExerciseColumns({
     },
     {
       accessorKey: "targetSets",
-      header: "Sets",
+      header: "เซ็ต",
       cell: ({ row }) => row.original.targetSets,
     },
     {
       accessorKey: "targetReps",
-      header: "Reps",
+      header: "ครั้ง",
       cell: ({ row }) => row.original.targetReps,
     },
     {
       accessorKey: "targetWeight",
-      header: "Weight",
+      header: "น้ำหนัก",
       cell: ({ row }) => `${row.original.targetWeight} kg`,
     },
     {
@@ -83,7 +83,7 @@ export function getWorkoutPlanExerciseColumns({
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label={`Edit ${row.original.exerciseId.name}`}
+            aria-label={`แก้ไข ${row.original.exerciseId.name}`}
             onClick={() => onEdit(row.original)}
           >
             <Pencil className="size-4" />
@@ -91,7 +91,7 @@ export function getWorkoutPlanExerciseColumns({
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label={`Remove ${row.original.exerciseId.name}`}
+            aria-label={`ลบ ${row.original.exerciseId.name}`}
             onClick={() => onDelete(row.original)}
           >
             <Trash2 className="size-4" />

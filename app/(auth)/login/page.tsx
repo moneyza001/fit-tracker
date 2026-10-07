@@ -12,15 +12,15 @@ export default function LoginPage() {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <CardTitle>Log in</CardTitle>
-        <CardDescription>Welcome back to FitTracker.</CardDescription>
+        <CardTitle>เข้าสู่ระบบ</CardTitle>
+        <CardDescription>ยินดีต้อนรับกลับสู่ FitTracker</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <LoginForm />
         <p className="text-center text-sm text-muted-foreground">
-          Don&apos;t have an account?{" "}
+          ยังไม่มีบัญชี?{" "}
           <Link href="/signup" className="font-medium text-foreground underline underline-offset-2">
-            Sign up
+            สมัครสมาชิก
           </Link>
         </p>
       </CardContent>

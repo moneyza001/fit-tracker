@@ -83,19 +83,19 @@ export function ProgramForm({
           method: "PATCH",
           body: JSON.stringify(values),
         });
-        toast.success("Program updated");
+        toast.success("อัปเดตโปรแกรมแล้ว");
       } else {
         await apiRequest("/api/programs", {
           method: "POST",
           body: JSON.stringify(values),
         });
-        toast.success("Program created");
+        toast.success("สร้างโปรแกรมแล้ว");
       }
       onOpenChange(false);
       onSuccess();
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Something went wrong"
+        error instanceof Error ? error.message : "เกิดข้อผิดพลาด"
       );
     }
   }
@@ -104,7 +104,7 @@ export function ProgramForm({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{isEdit ? "Edit Program" : "Add Program"}</DialogTitle>
+          <DialogTitle>{isEdit ? "แก้ไขโปรแกรม" : "เพิ่มโปรแกรม"}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -113,7 +113,7 @@ export function ProgramForm({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>ชื่อ</FormLabel>
                   <FormControl>
                     <Input placeholder="Push Pull Legs" {...field} />
                   </FormControl>
@@ -126,9 +126,9 @@ export function ProgramForm({
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>คำอธิบาย</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Optional description" {...field} />
+                    <Textarea placeholder="คำอธิบาย (ไม่บังคับ)" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -139,24 +139,24 @@ export function ProgramForm({
               name="status"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Status</FormLabel>
+                  <FormLabel>สถานะ</FormLabel>
                   <Select
                     items={PROGRAM_STATUSES.map((status) => ({
                       value: status,
-                      label: status,
+                      label: status === "active" ? "ใช้งานอยู่" : "เก็บถาวร",
                     }))}
                     value={field.value}
                     onValueChange={field.onChange}
                   >
                     <FormControl>
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select status" />
+                        <SelectValue placeholder="เลือกสถานะ" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
                       {PROGRAM_STATUSES.map((status) => (
                         <SelectItem key={status} value={status}>
-                          {status}
+                          {status === "active" ? "ใช้งานอยู่" : "เก็บถาวร"}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -171,10 +171,10 @@ export function ProgramForm({
                 variant="outline"
                 onClick={() => onOpenChange(false)}
               >
-                Cancel
+                ยกเลิก
               </Button>
               <Button type="submit" disabled={form.formState.isSubmitting}>
-                {isEdit ? "Save changes" : "Create"}
+                {isEdit ? "บันทึกการเปลี่ยนแปลง" : "สร้าง"}
               </Button>
             </DialogFooter>
           </form>

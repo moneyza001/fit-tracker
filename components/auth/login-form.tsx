@@ -36,7 +36,7 @@ export function LoginForm() {
     });
 
     if (result?.error) {
-      toast.error("Invalid email or password");
+      toast.error("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
       return;
     }
 
@@ -53,7 +53,7 @@ export function LoginForm() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>อีเมล</FormLabel>
                 <FormControl>
                   <Input type="email" placeholder="you@example.com" {...field} />
                 </FormControl>
@@ -66,7 +66,7 @@ export function LoginForm() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel>รหัสผ่าน</FormLabel>
                 <FormControl>
                   <Input type="password" {...field} />
                 </FormControl>
@@ -79,14 +79,14 @@ export function LoginForm() {
             className="w-full"
             disabled={form.formState.isSubmitting}
           >
-            Log in
+            เข้าสู่ระบบ
           </Button>
         </form>
       </Form>
 
       <div className="flex items-center gap-3">
         <Separator className="flex-1" />
-        <span className="text-xs text-muted-foreground">OR</span>
+        <span className="text-xs text-muted-foreground">หรือ</span>
         <Separator className="flex-1" />
       </div>
 
@@ -96,7 +96,7 @@ export function LoginForm() {
         className="w-full"
         onClick={() => signIn("google", { callbackUrl: "/" })}
       >
-        Continue with Google
+        ดำเนินการต่อด้วย Google
       </Button>
     </div>
   );

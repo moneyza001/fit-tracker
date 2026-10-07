@@ -43,14 +43,14 @@ export function VolumeTrendChart({ logs }: VolumeTrendChartProps) {
     <div className="space-y-3">
       <Tabs value={bucket} onValueChange={(value) => setBucket(value as VolumeTrendBucket)}>
         <TabsList>
-          <TabsTrigger value="week">Weekly</TabsTrigger>
-          <TabsTrigger value="month">Monthly</TabsTrigger>
+          <TabsTrigger value="week">รายสัปดาห์</TabsTrigger>
+          <TabsTrigger value="month">รายเดือน</TabsTrigger>
         </TabsList>
       </Tabs>
 
       {data.length === 0 ? (
         <div className="flex h-56 items-center justify-center text-sm text-muted-foreground">
-          No workout volume logged yet.
+          ยังไม่มีการบันทึกวอลุ่มการออกกำลังกาย
         </div>
       ) : (
         <div className="h-56">

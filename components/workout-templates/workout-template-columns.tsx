@@ -18,7 +18,7 @@ export function getWorkoutTemplateColumns({
   return [
     {
       accessorKey: "name",
-      header: "Name",
+      header: "ชื่อ",
       cell: ({ row }) => (
         <Link
           href={`/workout-templates/${row.original._id}`}
@@ -30,7 +30,7 @@ export function getWorkoutTemplateColumns({
     },
     {
       accessorKey: "description",
-      header: "Description",
+      header: "คำอธิบาย",
       cell: ({ row }) => (
         <span className="text-muted-foreground">
           {row.original.description || "—"}
@@ -39,7 +39,7 @@ export function getWorkoutTemplateColumns({
     },
     {
       id: "exerciseCount",
-      header: "Exercises",
+      header: "ท่าออกกำลังกาย",
       cell: ({ row }) => row.original.exercises.length,
     },
     {
@@ -50,7 +50,7 @@ export function getWorkoutTemplateColumns({
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label={`Edit ${row.original.name}`}
+            aria-label={`แก้ไข ${row.original.name}`}
             onClick={() => onEdit(row.original)}
           >
             <Pencil className="size-4" />
@@ -58,7 +58,7 @@ export function getWorkoutTemplateColumns({
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label={`Delete ${row.original.name}`}
+            aria-label={`ลบ ${row.original.name}`}
             onClick={() => onDelete(row.original)}
           >
             <Trash2 className="size-4" />

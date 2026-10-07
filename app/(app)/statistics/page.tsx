@@ -40,15 +40,15 @@ export default async function StatisticsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold">Progress Analytics</h1>
+        <h1 className="text-2xl font-semibold">สถิติความก้าวหน้า</h1>
         <p className="text-sm text-muted-foreground">
-          Trends across every workout you&apos;ve logged.
+          เทรนด์จากเวิร์คเอาท์ทั้งหมดที่คุณบันทึกไว้
         </p>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>Progress Over Time</CardTitle>
+          <CardTitle>ความก้าวหน้าตามเวลา</CardTitle>
         </CardHeader>
         <CardContent>
           <GlobalMetricChart bodyWeights={bodyWeights} series={series} />
@@ -58,7 +58,7 @@ export default async function StatisticsPage() {
       <div className="grid gap-6 md:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>Volume by Muscle Group</CardTitle>
+            <CardTitle>วอลุ่มตามกลุ่มกล้ามเนื้อ</CardTitle>
           </CardHeader>
           <CardContent>
             <MuscleGroupChart data={muscleGroupVolume} />
@@ -67,7 +67,7 @@ export default async function StatisticsPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Volume Trend</CardTitle>
+            <CardTitle>เทรนด์วอลุ่ม</CardTitle>
           </CardHeader>
           <CardContent>
             <VolumeTrendChart logs={logs} />
@@ -77,7 +77,7 @@ export default async function StatisticsPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Consistency</CardTitle>
+          <CardTitle>ความสม่ำเสมอ</CardTitle>
         </CardHeader>
         <CardContent>
           <ConsistencyHeatmap weeks={heatmapWeeks} />

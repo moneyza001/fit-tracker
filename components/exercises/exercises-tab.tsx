@@ -47,7 +47,7 @@ export function ExercisesTab({
       setExercises(data);
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Failed to load exercises"
+        error instanceof Error ? error.message : "โหลดท่าออกกำลังกายไม่สำเร็จ"
       );
     } finally {
       setIsLoading(false);
@@ -71,12 +71,12 @@ export function ExercisesTab({
       await apiRequest(`/api/exercises/${deletingExercise._id}`, {
         method: "DELETE",
       });
-      toast.success("Exercise deleted");
+      toast.success("ลบท่าออกกำลังกายแล้ว");
       setDeletingExercise(null);
       refetch();
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Failed to delete exercise"
+        error instanceof Error ? error.message : "ลบท่าออกกำลังกายไม่สำเร็จ"
       );
     } finally {
       setIsDeleting(false);
@@ -96,13 +96,13 @@ export function ExercisesTab({
           <Input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search exercises..."
+            placeholder="ค้นหาท่าออกกำลังกาย..."
             className="pl-8"
           />
         </div>
         <Button onClick={handleAdd}>
           <Plus className="size-4" />
-          Add Exercise
+          เพิ่มท่าออกกำลังกาย
         </Button>
       </div>
       <DataTable
@@ -111,8 +111,8 @@ export function ExercisesTab({
         isLoading={isLoading}
         emptyMessage={
           search
-            ? "No exercises match your search."
-            : "No exercises yet. Add one to build your library."
+            ? "ไม่พบท่าออกกำลังกายที่ตรงกับการค้นหา"
+            : "ยังไม่มีท่าออกกำลังกาย เพิ่มท่าแรกเพื่อสร้างคลังท่าของคุณ"
         }
       />
       <ExerciseForm
@@ -124,8 +124,8 @@ export function ExercisesTab({
       <ConfirmDeleteDialog
         open={Boolean(deletingExercise)}
         onOpenChange={(open) => !open && setDeletingExercise(null)}
-        title="Delete exercise?"
-        description={`This will permanently delete "${deletingExercise?.name}" from your exercise library.`}
+        title="ลบท่าออกกำลังกายนี้หรือไม่?"
+        description={`การลบนี้จะลบ "${deletingExercise?.name}" ออกจากคลังท่าออกกำลังกายของคุณอย่างถาวร`}
         onConfirm={handleDeleteConfirm}
         isLoading={isDeleting}
       />

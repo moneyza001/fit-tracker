@@ -87,19 +87,19 @@ export function WorkoutPlanForm({
           method: "PATCH",
           body: JSON.stringify(values),
         });
-        toast.success("Workout plan updated");
+        toast.success("อัปเดตแผนการฝึกแล้ว");
       } else {
         await apiRequest("/api/workout-plans", {
           method: "POST",
           body: JSON.stringify(values),
         });
-        toast.success("Workout plan created");
+        toast.success("สร้างแผนการฝึกแล้ว");
       }
       onOpenChange(false);
       onSuccess();
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Something went wrong"
+        error instanceof Error ? error.message : "เกิดข้อผิดพลาด"
       );
     }
   }
@@ -109,7 +109,7 @@ export function WorkoutPlanForm({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            {isEdit ? "Edit Workout Plan" : "Add Workout Plan"}
+            {isEdit ? "แก้ไขแผนการฝึก" : "เพิ่มแผนการฝึก"}
           </DialogTitle>
         </DialogHeader>
         <Form {...form}>
@@ -119,7 +119,7 @@ export function WorkoutPlanForm({
               name="programId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Program</FormLabel>
+                  <FormLabel>โปรแกรม</FormLabel>
                   <Select
                     items={programs.map((program) => ({
                       value: program._id,
@@ -130,7 +130,7 @@ export function WorkoutPlanForm({
                   >
                     <FormControl>
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select a program" />
+                        <SelectValue placeholder="เลือกโปรแกรม" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -150,7 +150,7 @@ export function WorkoutPlanForm({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>ชื่อ</FormLabel>
                   <FormControl>
                     <Input placeholder="Push A" {...field} />
                   </FormControl>
@@ -163,7 +163,7 @@ export function WorkoutPlanForm({
               name="day"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Day</FormLabel>
+                  <FormLabel>วัน</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -184,9 +184,9 @@ export function WorkoutPlanForm({
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>คำอธิบาย</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Optional description" {...field} />
+                    <Textarea placeholder="คำอธิบาย (ไม่บังคับ)" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -198,10 +198,10 @@ export function WorkoutPlanForm({
                 variant="outline"
                 onClick={() => onOpenChange(false)}
               >
-                Cancel
+                ยกเลิก
               </Button>
               <Button type="submit" disabled={form.formState.isSubmitting}>
-                {isEdit ? "Save changes" : "Create"}
+                {isEdit ? "บันทึกการเปลี่ยนแปลง" : "สร้าง"}
               </Button>
             </DialogFooter>
           </form>

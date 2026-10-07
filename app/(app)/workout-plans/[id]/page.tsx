@@ -47,11 +47,11 @@ export default async function WorkoutPlanDetailPage({
           className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft className="size-4" />
-          Workout Plans
+          แผนการฝึก
         </Link>
         <h1 className="mt-2 text-2xl font-semibold">{workoutPlan.name}</h1>
         <p className="text-sm text-muted-foreground">
-          Day {workoutPlan.day}
+          วันที่ {workoutPlan.day}
           {workoutPlan.description ? ` · ${workoutPlan.description}` : ""}
         </p>
       </div>

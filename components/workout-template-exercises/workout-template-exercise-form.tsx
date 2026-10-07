@@ -83,7 +83,7 @@ export function WorkoutTemplateExerciseForm({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{isEdit ? "Edit Exercise" : "Add Exercise"}</DialogTitle>
+          <DialogTitle>{isEdit ? "แก้ไขท่าออกกำลังกาย" : "เพิ่มท่าออกกำลังกาย"}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -92,7 +92,7 @@ export function WorkoutTemplateExerciseForm({
               name="exerciseId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Exercise</FormLabel>
+                  <FormLabel>ท่าออกกำลังกาย</FormLabel>
                   <Select
                     items={exercises.map((exercise) => ({
                       value: exercise._id,
@@ -103,7 +103,7 @@ export function WorkoutTemplateExerciseForm({
                   >
                     <FormControl>
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select an exercise" />
+                        <SelectValue placeholder="เลือกท่าออกกำลังกาย" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -123,7 +123,7 @@ export function WorkoutTemplateExerciseForm({
               name="targetSets"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Target Sets</FormLabel>
+                  <FormLabel>เซ็ตเป้าหมาย</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -144,7 +144,7 @@ export function WorkoutTemplateExerciseForm({
               name="targetReps"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Target Reps</FormLabel>
+                  <FormLabel>จำนวนครั้งเป้าหมาย</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -165,7 +165,7 @@ export function WorkoutTemplateExerciseForm({
               name="targetWeight"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Target Weight (kg)</FormLabel>
+                  <FormLabel>น้ำหนักเป้าหมาย (kg)</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -188,10 +188,10 @@ export function WorkoutTemplateExerciseForm({
                 variant="outline"
                 onClick={() => onOpenChange(false)}
               >
-                Cancel
+                ยกเลิก
               </Button>
               <Button type="submit" disabled={isSubmitting}>
-                {isEdit ? "Save changes" : "Add"}
+                {isEdit ? "บันทึกการเปลี่ยนแปลง" : "เพิ่ม"}
               </Button>
             </DialogFooter>
           </form>

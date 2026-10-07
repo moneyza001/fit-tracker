@@ -38,7 +38,7 @@ export function StartWorkoutPicker({
       router.refresh();
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Failed to start workout"
+        error instanceof Error ? error.message : "เริ่มเวิร์คเอาท์ไม่สำเร็จ"
       );
       setStartingId(null);
     }
@@ -47,12 +47,12 @@ export function StartWorkoutPicker({
   if (workoutPlans.length === 0 && workoutTemplates.length === 0) {
     return (
       <div className="space-y-2">
-        <h1 className="text-2xl font-semibold">Workout Today</h1>
+        <h1 className="text-2xl font-semibold">เวิร์คเอาท์วันนี้</h1>
         <p className="text-sm text-muted-foreground">
-          You need an active program with a workout plan, or a workout
-          template, before you can start a workout. Set one up in{" "}
+          คุณต้องมีโปรแกรมที่กำลังใช้งานพร้อมแผนการฝึก หรือเทมเพลตเวิร์คเอาท์
+          ก่อนจะเริ่มเวิร์คเอาท์ได้ ตั้งค่าได้ที่{" "}
           <Link href="/programs" className="underline">
-            Programs
+            โปรแกรม
           </Link>
           .
         </p>
@@ -63,9 +63,9 @@ export function StartWorkoutPicker({
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold">Workout Today</h1>
+        <h1 className="text-2xl font-semibold">เวิร์คเอาท์วันนี้</h1>
         <p className="text-sm text-muted-foreground">
-          Pick a workout plan or template to start.
+          เลือกแผนการฝึกหรือเทมเพลตเพื่อเริ่ม
         </p>
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
@@ -91,7 +91,7 @@ export function StartWorkoutPicker({
                     onClick={() => handleStart({ workoutPlanId: plan._id })}
                   >
                     <span>
-                      Day {plan.day} — {plan.name}
+                      วันที่ {plan.day} — {plan.name}
                     </span>
                     <Play className="size-4" />
                   </Button>
@@ -104,7 +104,7 @@ export function StartWorkoutPicker({
         {workoutTemplates.length > 0 && (
           <Card>
             <CardHeader>
-              <CardTitle>Templates</CardTitle>
+              <CardTitle>เทมเพลต</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
               {workoutTemplates.map((template) => (

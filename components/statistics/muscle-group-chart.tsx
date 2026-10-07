@@ -10,29 +10,17 @@ import {
   YAxis,
 } from "recharts";
 import type { MuscleGroupVolume } from "@/lib/statistics";
+import { MUSCLE_GROUP_LABELS } from "@/lib/exercise-labels";
 
 interface MuscleGroupChartProps {
   data: MuscleGroupVolume[];
 }
 
-const MUSCLE_GROUP_LABELS: Record<string, string> = {
-  chest: "Chest",
-  back: "Back",
-  shoulders: "Shoulders",
-  biceps: "Biceps",
-  triceps: "Triceps",
-  legs: "Legs",
-  glutes: "Glutes",
-  core: "Core",
-  full_body: "Full Body",
-  cardio: "Cardio",
-};
-
 export function MuscleGroupChart({ data }: MuscleGroupChartProps) {
   if (data.length === 0) {
     return (
       <div className="flex h-64 items-center justify-center text-sm text-muted-foreground">
-        No workout volume logged yet.
+        ยังไม่มีการบันทึกวอลุ่มการออกกำลังกาย
       </div>
     );
   }

@@ -19,7 +19,7 @@ export function ConsistencyHeatmap({ weeks }: ConsistencyHeatmapProps) {
   if (weeks.length === 0) {
     return (
       <div className="flex h-24 items-center justify-center text-sm text-muted-foreground">
-        No workout history yet.
+        ยังไม่มีประวัติการออกกำลังกาย
       </div>
     );
   }
@@ -40,7 +40,7 @@ export function ConsistencyHeatmap({ weeks }: ConsistencyHeatmapProps) {
         ))}
       </div>
       <p className="text-xs text-muted-foreground">
-        {totalDays} active day{totalDays === 1 ? "" : "s"} in the last {weeks.length} weeks
+        ออกกำลังกาย {totalDays} วันในช่วง {weeks.length} สัปดาห์ที่ผ่านมา
       </p>
     </div>
   );

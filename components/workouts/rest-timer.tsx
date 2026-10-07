@@ -31,7 +31,7 @@ export function RestTimer({ secondsLeft, totalSeconds, onSkip }: RestTimerProps)
           variant="ghost"
           size="icon-sm"
           onClick={onSkip}
-          aria-label="Skip rest timer"
+          aria-label="ข้ามตัวจับเวลาพัก"
         >
           <X className="size-3.5" />
         </Button>

@@ -17,13 +17,13 @@ export interface NavItem {
 }
 
 export const NAV_ITEMS: NavItem[] = [
-  { label: "Dashboard", href: "/", icon: LayoutDashboard },
-  { label: "Programs", href: "/programs", icon: ClipboardList, matchPrefix: "/programs" },
-  { label: "Workouts", href: "/workouts", icon: Dumbbell },
-  { label: "Exercises", href: "/programs?tab=exercises", icon: ListChecks },
-  { label: "Statistics", href: "/statistics", icon: BarChart3 },
-  { label: "History", href: "/history", icon: History },
-  { label: "Settings", href: "/settings", icon: Settings },
+  { label: "แดชบอร์ด", href: "/", icon: LayoutDashboard },
+  { label: "โปรแกรม", href: "/programs", icon: ClipboardList, matchPrefix: "/programs" },
+  { label: "เวิร์คเอาท์", href: "/workouts", icon: Dumbbell },
+  { label: "ท่าออกกำลังกาย", href: "/programs?tab=exercises", icon: ListChecks },
+  { label: "สถิติ", href: "/statistics", icon: BarChart3 },
+  { label: "ประวัติ", href: "/history", icon: History },
+  { label: "ตั้งค่า", href: "/settings", icon: Settings },
 ];
 
 export function isNavItemActive(item: NavItem, pathname: string): boolean {

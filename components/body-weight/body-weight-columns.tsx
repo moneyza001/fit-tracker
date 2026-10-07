@@ -17,7 +17,7 @@ export function getBodyWeightColumns({
   return [
     {
       accessorKey: "date",
-      header: "Date",
+      header: "วันที่",
       cell: ({ row }) => (
         <span className="font-medium">
           {new Date(row.original.date).toLocaleDateString(undefined, {
@@ -30,12 +30,12 @@ export function getBodyWeightColumns({
     },
     {
       accessorKey: "weight",
-      header: "Weight",
+      header: "น้ำหนัก",
       cell: ({ row }) => `${row.original.weight} kg`,
     },
     {
       accessorKey: "note",
-      header: "Note",
+      header: "โน้ต",
       cell: ({ row }) => (
         <span className="text-muted-foreground">
           {row.original.note || "—"}
@@ -50,7 +50,7 @@ export function getBodyWeightColumns({
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label={`Edit entry from ${row.original.date}`}
+            aria-label={`แก้ไขรายการจากวันที่ ${row.original.date}`}
             onClick={() => onEdit(row.original)}
           >
             <Pencil className="size-4" />
@@ -58,7 +58,7 @@ export function getBodyWeightColumns({
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label={`Delete entry from ${row.original.date}`}
+            aria-label={`ลบรายการจากวันที่ ${row.original.date}`}
             onClick={() => onDelete(row.original)}
           >
             <Trash2 className="size-4" />

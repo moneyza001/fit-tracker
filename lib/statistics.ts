@@ -5,9 +5,9 @@ export const GLOBAL_METRICS = ["weight", "volume", "estimated1RM", "rpeRir"] as 
 export type GlobalMetric = (typeof GLOBAL_METRICS)[number];
 
 export const GLOBAL_METRIC_LABELS: Record<GlobalMetric, string> = {
-  weight: "Weight",
-  volume: "Volume",
-  estimated1RM: "Est. 1RM",
+  weight: "น้ำหนัก",
+  volume: "วอลุ่ม",
+  estimated1RM: "ประมาณ 1RM",
   rpeRir: "RPE / RIR",
 };
 

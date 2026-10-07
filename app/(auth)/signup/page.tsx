@@ -12,15 +12,15 @@ export default function SignupPage() {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <CardTitle>Create account</CardTitle>
-        <CardDescription>Start tracking your workouts.</CardDescription>
+        <CardTitle>สร้างบัญชี</CardTitle>
+        <CardDescription>เริ่มบันทึกเวิร์คเอาท์ของคุณ</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <SignupForm />
         <p className="text-center text-sm text-muted-foreground">
-          Already have an account?{" "}
+          มีบัญชีอยู่แล้ว?{" "}
           <Link href="/login" className="font-medium text-foreground underline underline-offset-2">
-            Log in
+            เข้าสู่ระบบ
           </Link>
         </p>
       </CardContent>

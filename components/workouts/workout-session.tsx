@@ -119,7 +119,7 @@ export function WorkoutSession({
         }),
       });
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to save set");
+      toast.error(error instanceof Error ? error.message : "บันทึกเซ็ตไม่สำเร็จ");
     } finally {
       savingRef.current = false;
       if (pendingSaveRef.current) {
@@ -148,22 +148,22 @@ export function WorkoutSession({
         `/api/workout-logs/${logId}/finish`,
         { method: "POST" }
       );
-      toast.success("Workout completed!");
+      toast.success("จบเวิร์คเอาท์แล้ว!");
 
       const nameById = new Map(
         exercisesRef.current.map((ex) => [ex.exerciseId, ex.exerciseName])
       );
       for (const pr of result.newPRs) {
-        const name = nameById.get(pr.exerciseId) ?? "Exercise";
-        toast(`🏆 New PR: ${name}`, {
-          description: `${pr.weight}kg × ${pr.reps} — est. 1RM ${Math.round(pr.estimated1RM * 10) / 10}kg`,
+        const name = nameById.get(pr.exerciseId) ?? "ท่าออกกำลังกาย";
+        toast(`🏆 สถิติใหม่ (PR): ${name}`, {
+          description: `${pr.weight}kg × ${pr.reps} — ประมาณ 1RM ${Math.round(pr.estimated1RM * 10) / 10}kg`,
         });
       }
 
       router.refresh();
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Failed to finish workout"
+        error instanceof Error ? error.message : "จบเวิร์คเอาท์ไม่สำเร็จ"
       );
       setIsFinishing(false);
     }
@@ -173,11 +173,11 @@ export function WorkoutSession({
     setIsCanceling(true);
     try {
       await apiRequest(`/api/workout-logs/${logId}`, { method: "DELETE" });
-      toast.success("Workout canceled");
+      toast.success("ยกเลิกเวิร์คเอาท์แล้ว");
       router.refresh();
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Failed to cancel workout"
+        error instanceof Error ? error.message : "ยกเลิกเวิร์คเอาท์ไม่สำเร็จ"
       );
       setIsCanceling(false);
     }
@@ -199,14 +199,14 @@ export function WorkoutSession({
               month: "long",
               day: "numeric",
             })}{" "}
-            · {totalSets} {totalSets === 1 ? "set" : "sets"} logged
+            · บันทึกแล้ว {totalSets} เซ็ต
           </p>
         </div>
         <Button
           variant="ghost"
           size="icon"
           onClick={() => setCancelOpen(true)}
-          aria-label="Cancel workout"
+          aria-label="ยกเลิกเวิร์คเอาท์"
         >
           <X className="size-4" />
         </Button>
@@ -226,11 +226,11 @@ export function WorkoutSession({
 
       <div className="space-y-2">
         <label htmlFor="overall-note" className="text-sm font-medium">
-          Workout Note
+          โน้ตเวิร์คเอาท์
         </label>
         <Textarea
           id="overall-note"
-          placeholder="How did today's session feel? (optional)"
+          placeholder="เซสชันวันนี้เป็นอย่างไร? (ไม่บังคับ)"
           value={overallNote}
           onChange={(e) => handleOverallNoteChange(e.target.value)}
           onBlur={saveNow}
@@ -254,23 +254,23 @@ export function WorkoutSession({
           disabled={isFinishing}
         >
           <CheckCircle2 className="size-5" />
-          Finish Workout
+          จบเวิร์คเอาท์
         </Button>
       </div>
 
       <AlertDialog open={unfinishedSetsOpen} onOpenChange={setUnfinishedSetsOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Some sets aren&apos;t marked done</AlertDialogTitle>
+            <AlertDialogTitle>มีเซ็ตที่ยังไม่ทำเครื่องหมายว่าเสร็จ</AlertDialogTitle>
             <AlertDialogDescription>
-              You have sets that haven&apos;t been checked off — they won&apos;t
-              be saved to this workout&apos;s history. Finish anyway?
+              คุณมีเซ็ตที่ยังไม่ได้ทำเครื่องหมาย เซ็ตเหล่านั้นจะไม่ถูกบันทึกลงในประวัติเวิร์คเอาท์นี้
+              ต้องการจบเวิร์คเอาท์เลยหรือไม่?
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Keep going</AlertDialogCancel>
+            <AlertDialogCancel>ทำต่อ</AlertDialogCancel>
             <AlertDialogAction onClick={handleFinish} disabled={isFinishing}>
-              Finish anyway
+              จบเวิร์คเอาท์เลย
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -279,20 +279,19 @@ export function WorkoutSession({
       <AlertDialog open={cancelOpen} onOpenChange={setCancelOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Cancel this workout?</AlertDialogTitle>
+            <AlertDialogTitle>ยกเลิกเวิร์คเอาท์นี้?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently delete today&apos;s in-progress workout
-              log.
+              การดำเนินการนี้จะลบบันทึกเวิร์คเอาท์ที่กำลังดำเนินการของวันนี้อย่างถาวร
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Keep going</AlertDialogCancel>
+            <AlertDialogCancel>ทำต่อ</AlertDialogCancel>
             <AlertDialogAction
               variant="destructive"
               onClick={handleCancel}
               disabled={isCanceling}
             >
-              Cancel workout
+              ยกเลิกเวิร์คเอาท์
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

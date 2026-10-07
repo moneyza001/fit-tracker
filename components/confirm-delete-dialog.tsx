@@ -36,13 +36,13 @@ export function ConfirmDeleteDialog({
           <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel>ยกเลิก</AlertDialogCancel>
           <AlertDialogAction
             variant="destructive"
             onClick={onConfirm}
             disabled={isLoading}
           >
-            Delete
+            ลบ
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

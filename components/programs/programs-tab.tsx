@@ -32,7 +32,7 @@ export function ProgramsTab({ programs, onProgramsChange }: ProgramsTabProps) {
       onProgramsChange(data);
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Failed to load programs"
+        error instanceof Error ? error.message : "โหลดโปรแกรมไม่สำเร็จ"
       );
     } finally {
       setIsLoading(false);
@@ -56,12 +56,12 @@ export function ProgramsTab({ programs, onProgramsChange }: ProgramsTabProps) {
       await apiRequest(`/api/programs/${deletingProgram._id}`, {
         method: "DELETE",
       });
-      toast.success("Program deleted");
+      toast.success("ลบโปรแกรมแล้ว");
       setDeletingProgram(null);
       refetch();
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Failed to delete program"
+        error instanceof Error ? error.message : "ลบโปรแกรมไม่สำเร็จ"
       );
     } finally {
       setIsDeleting(false);
@@ -78,14 +78,14 @@ export function ProgramsTab({ programs, onProgramsChange }: ProgramsTabProps) {
       <div className="flex justify-end">
         <Button onClick={handleAdd}>
           <Plus className="size-4" />
-          Add Program
+          เพิ่มโปรแกรม
         </Button>
       </div>
       <DataTable
         columns={columns}
         data={programs}
         isLoading={isLoading}
-        emptyMessage="No programs yet. Create one to get started."
+        emptyMessage="ยังไม่มีโปรแกรม สร้างโปรแกรมแรกเพื่อเริ่มต้น"
       />
       <ProgramForm
         open={formOpen}
@@ -96,8 +96,8 @@ export function ProgramsTab({ programs, onProgramsChange }: ProgramsTabProps) {
       <ConfirmDeleteDialog
         open={Boolean(deletingProgram)}
         onOpenChange={(open) => !open && setDeletingProgram(null)}
-        title="Delete program?"
-        description={`This will permanently delete "${deletingProgram?.name}" and all of its workout plans.`}
+        title="ลบโปรแกรมนี้หรือไม่?"
+        description={`การลบนี้จะลบ "${deletingProgram?.name}" และแผนการฝึกทั้งหมดอย่างถาวร`}
         onConfirm={handleDeleteConfirm}
         isLoading={isDeleting}
       />

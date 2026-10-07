@@ -37,7 +37,7 @@ export default async function WorkoutTemplateDetailPage({
           className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft className="size-4" />
-          Templates
+          เทมเพลต
         </Link>
         <h1 className="mt-2 text-2xl font-semibold">{workoutTemplate.name}</h1>
         {workoutTemplate.description && (

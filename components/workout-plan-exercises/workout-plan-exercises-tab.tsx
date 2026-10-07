@@ -44,7 +44,7 @@ export function WorkoutPlanExercisesTab({
       setPlanExercises(items);
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Failed to load exercises"
+        error instanceof Error ? error.message : "โหลดท่าออกกำลังกายไม่สำเร็จ"
       );
     } finally {
       setIsLoading(false);
@@ -68,12 +68,12 @@ export function WorkoutPlanExercisesTab({
       await apiRequest(`/api/workout-plan-exercises/${deletingItem._id}`, {
         method: "DELETE",
       });
-      toast.success("Exercise removed");
+      toast.success("ลบท่าออกกำลังกายแล้ว");
       setDeletingItem(null);
       refetch();
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Failed to remove exercise"
+        error instanceof Error ? error.message : "ลบท่าออกกำลังกายไม่สำเร็จ"
       );
     } finally {
       setIsDeleting(false);
@@ -101,7 +101,7 @@ export function WorkoutPlanExercisesTab({
       refetch();
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Failed to reorder"
+        error instanceof Error ? error.message : "จัดลำดับใหม่ไม่สำเร็จ"
       );
       setIsLoading(false);
     }
@@ -126,19 +126,19 @@ export function WorkoutPlanExercisesTab({
       <div className="flex justify-end">
         <Button onClick={handleAdd} disabled={exercises.length === 0}>
           <Plus className="size-4" />
-          Add Exercise
+          เพิ่มท่าออกกำลังกาย
         </Button>
       </div>
       {exercises.length === 0 && !isLoading && (
         <p className="text-sm text-muted-foreground">
-          Create an exercise first before adding it to this plan.
+          สร้างท่าออกกำลังกายก่อนเพื่อเพิ่มเข้าแผนนี้
         </p>
       )}
       <DataTable
         columns={columns}
         data={planExercises}
         isLoading={isLoading}
-        emptyMessage="No exercises in this plan yet."
+        emptyMessage="ยังไม่มีท่าออกกำลังกายในแผนนี้"
       />
       <WorkoutPlanExerciseForm
         open={formOpen}
@@ -152,8 +152,8 @@ export function WorkoutPlanExercisesTab({
       <ConfirmDeleteDialog
         open={Boolean(deletingItem)}
         onOpenChange={(open) => !open && setDeletingItem(null)}
-        title="Remove exercise from plan?"
-        description={`This will remove "${deletingItem?.exerciseId.name}" from this workout plan.`}
+        title="นำท่าออกกำลังกายออกจากแผนหรือไม่?"
+        description={`การดำเนินการนี้จะนำ "${deletingItem?.exerciseId.name}" ออกจากแผนการฝึกนี้`}
         onConfirm={handleDeleteConfirm}
         isLoading={isDeleting}
       />

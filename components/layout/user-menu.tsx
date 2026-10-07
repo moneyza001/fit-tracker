@@ -41,7 +41,7 @@ export function UserMenu() {
           onClick={() => signOut({ callbackUrl: "/login" })}
         >
           <LogOut className="size-4" />
-          Sign out
+          ออกจากระบบ
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

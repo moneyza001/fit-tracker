@@ -29,7 +29,7 @@ const workoutLogBaseSchema = z.object({
 export const workoutLogSchema = workoutLogBaseSchema.refine(
   (data) => Boolean(data.workoutPlanId) || Boolean(data.workoutTemplateId),
   {
-    message: "Either workoutPlanId or workoutTemplateId is required",
+    message: "ต้องระบุ workoutPlanId หรือ workoutTemplateId อย่างใดอย่างหนึ่ง",
     path: ["workoutPlanId"],
   }
 );

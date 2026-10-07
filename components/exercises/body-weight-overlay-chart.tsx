@@ -31,12 +31,12 @@ export function BodyWeightOverlayChart({
   if (!hasBodyWeightEntries) {
     return (
       <div className="flex h-56 flex-col items-center justify-center gap-2 text-sm text-muted-foreground">
-        <p>Log your body weight to compare it against this lift.</p>
+        <p>บันทึกน้ำหนักตัวของคุณเพื่อเทียบกับท่านี้</p>
         <Link
           href="/body-weight"
           className="text-foreground underline-offset-2 hover:underline"
         >
-          Log Weight
+          บันทึกน้ำหนัก
         </Link>
       </div>
     );
@@ -72,7 +72,7 @@ export function BodyWeightOverlayChart({
             yAxisId="lifted"
             type="monotone"
             dataKey="liftedWeight"
-            name="Lifted Weight"
+            name="น้ำหนักที่ยก"
             stroke="var(--primary)"
             strokeWidth={2}
             dot={{ r: 3 }}
@@ -82,7 +82,7 @@ export function BodyWeightOverlayChart({
             yAxisId="body"
             type="monotone"
             dataKey="bodyWeight"
-            name="Body Weight"
+            name="น้ำหนักตัว"
             stroke="var(--chart-2)"
             strokeWidth={2}
             dot={{ r: 3 }}

@@ -27,7 +27,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 
 const formSchema = z.object({
-  date: z.string().min(1, "Date is required"),
+  date: z.string().min(1, "กรุณาระบุวันที่"),
   weight: z.number().min(0),
   note: z.string().trim().max(500).optional(),
 });
@@ -86,19 +86,19 @@ export function BodyWeightForm({
           method: "PATCH",
           body: JSON.stringify(body),
         });
-        toast.success("Entry updated");
+        toast.success("อัปเดตรายการแล้ว");
       } else {
         await apiRequest("/api/body-weight", {
           method: "POST",
           body: JSON.stringify(body),
         });
-        toast.success("Weight logged");
+        toast.success("บันทึกน้ำหนักแล้ว");
       }
       onOpenChange(false);
       onSuccess();
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Something went wrong"
+        error instanceof Error ? error.message : "เกิดข้อผิดพลาด"
       );
     }
   }
@@ -107,7 +107,7 @@ export function BodyWeightForm({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{isEdit ? "Edit Entry" : "Log Weight"}</DialogTitle>
+          <DialogTitle>{isEdit ? "แก้ไขรายการ" : "บันทึกน้ำหนัก"}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -116,7 +116,7 @@ export function BodyWeightForm({
               name="date"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Date</FormLabel>
+                  <FormLabel>วันที่</FormLabel>
                   <FormControl>
                     <Input type="date" {...field} />
                   </FormControl>
@@ -129,7 +129,7 @@ export function BodyWeightForm({
               name="weight"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Weight (kg)</FormLabel>
+                  <FormLabel>น้ำหนัก (kg)</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -151,9 +151,9 @@ export function BodyWeightForm({
               name="note"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Note</FormLabel>
+                  <FormLabel>โน้ต</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Optional note" {...field} />
+                    <Textarea placeholder="โน้ต (ถ้ามี)" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -165,10 +165,10 @@ export function BodyWeightForm({
                 variant="outline"
                 onClick={() => onOpenChange(false)}
               >
-                Cancel
+                ยกเลิก
               </Button>
               <Button type="submit" disabled={form.formState.isSubmitting}>
-                {isEdit ? "Save changes" : "Add"}
+                {isEdit ? "บันทึกการเปลี่ยนแปลง" : "เพิ่ม"}
               </Button>
             </DialogFooter>
           </form>

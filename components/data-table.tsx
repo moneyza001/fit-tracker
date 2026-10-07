@@ -26,7 +26,7 @@ export function DataTable<TData extends RowData, TValue>({
   columns,
   data,
   isLoading = false,
-  emptyMessage = "No results.",
+  emptyMessage = "ไม่พบข้อมูล",
 }: DataTableProps<TData, TValue>) {
   const table = useLegacyTable({
     data,
@@ -60,7 +60,7 @@ export function DataTable<TData extends RowData, TValue>({
                 colSpan={columns.length}
                 className="h-24 text-center text-muted-foreground"
               >
-                Loading…
+                กำลังโหลด…
               </TableCell>
             </TableRow>
           ) : table.getRowModel().rows.length ? (

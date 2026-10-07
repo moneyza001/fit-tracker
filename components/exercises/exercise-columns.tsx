@@ -6,17 +6,11 @@ import type { LegacyColumnDef } from "@tanstack/react-table/legacy";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { ExerciseRow } from "@/types";
+import { EQUIPMENT_LABELS, EXERCISE_TYPE_LABELS, MUSCLE_GROUP_LABELS } from "@/lib/exercise-labels";
 
 interface ExerciseColumnsOptions {
   onEdit: (exercise: ExerciseRow) => void;
   onDelete: (exercise: ExerciseRow) => void;
-}
-
-function formatLabel(value: string) {
-  return value
-    .split("_")
-    .map((word) => word[0].toUpperCase() + word.slice(1))
-    .join(" ");
 }
 
 export function getExerciseColumns({
@@ -26,7 +20,7 @@ export function getExerciseColumns({
   return [
     {
       accessorKey: "name",
-      header: "Name",
+      header: "ชื่อ",
       cell: ({ row }) => (
         <Link
           href={`/exercises/${row.original._id}`}
@@ -38,26 +32,26 @@ export function getExerciseColumns({
     },
     {
       accessorKey: "muscleGroup",
-      header: "Muscle Group",
+      header: "กลุ่มกล้ามเนื้อ",
       cell: ({ row }) => (
-        <Badge variant="outline">{formatLabel(row.original.muscleGroup)}</Badge>
+        <Badge variant="outline">{MUSCLE_GROUP_LABELS[row.original.muscleGroup]}</Badge>
       ),
     },
     {
       accessorKey: "equipment",
-      header: "Equipment",
+      header: "อุปกรณ์",
       cell: ({ row }) => (
         <span className="text-muted-foreground">
-          {formatLabel(row.original.equipment)}
+          {EQUIPMENT_LABELS[row.original.equipment]}
         </span>
       ),
     },
     {
       accessorKey: "type",
-      header: "Type",
+      header: "ประเภท",
       cell: ({ row }) => (
         <span className="text-muted-foreground">
-          {formatLabel(row.original.type)}
+          {EXERCISE_TYPE_LABELS[row.original.type]}
         </span>
       ),
     },
@@ -69,7 +63,7 @@ export function getExerciseColumns({
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label={`Edit ${row.original.name}`}
+            aria-label={`แก้ไข ${row.original.name}`}
             onClick={() => onEdit(row.original)}
           >
             <Pencil className="size-4" />
@@ -77,7 +71,7 @@ export function getExerciseColumns({
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label={`Delete ${row.original.name}`}
+            aria-label={`ลบ ${row.original.name}`}
             onClick={() => onDelete(row.original)}
           >
             <Trash2 className="size-4" />

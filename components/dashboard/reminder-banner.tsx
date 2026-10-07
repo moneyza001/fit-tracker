@@ -34,14 +34,14 @@ export function ReminderBanner({
 
     if (reminders.streakAtRisk && !hasNotifiedToday("streak")) {
       sendBrowserNotification(
-        "Your streak is about to break",
-        `You're on a ${streak}-day streak — get a workout in today to keep it alive.`
+        "สตรีคของคุณกำลังจะขาด",
+        `คุณมีสตรีค ${streak} วันแล้ว — ออกกำลังกายวันนี้เพื่อรักษาสตรีคไว้`
       );
       markNotifiedToday("streak");
     } else if (reminders.scheduleReminder && !hasNotifiedToday("schedule")) {
       sendBrowserNotification(
-        "Time for your next workout",
-        "You have an active program and haven't logged a workout in a couple of days."
+        "ถึงเวลาออกกำลังกายครั้งต่อไป",
+        "คุณมีโปรแกรมที่ใช้งานอยู่ และยังไม่ได้บันทึกการออกกำลังกายมาสองสามวันแล้ว"
       );
       markNotifiedToday("schedule");
     }
@@ -57,8 +57,8 @@ export function ReminderBanner({
         <CardContent className="flex items-center gap-3">
           <Flame className="size-5 shrink-0 text-amber-500" />
           <p className="text-sm">
-            You&apos;re on a <span className="font-medium">{streak}-day streak</span> —
-            log a workout today to keep it going.
+            คุณมีสตรีค <span className="font-medium">{streak} วัน</span> —
+            บันทึกการออกกำลังกายวันนี้เพื่อให้สตรีคต่อเนื่อง
           </p>
         </CardContent>
       </Card>
@@ -70,8 +70,7 @@ export function ReminderBanner({
       <CardContent className="flex items-center gap-3">
         <CalendarClock className="size-5 shrink-0 text-primary" />
         <p className="text-sm">
-          You haven&apos;t logged a workout in a couple of days — your program is
-          waiting.
+          คุณยังไม่ได้บันทึกการออกกำลังกายมาสองสามวันแล้ว — โปรแกรมของคุณกำลังรออยู่
         </p>
       </CardContent>
     </Card>

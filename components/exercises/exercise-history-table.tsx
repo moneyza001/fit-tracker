@@ -11,7 +11,7 @@ interface ExerciseHistoryTableProps {
 const columns: LegacyColumnDef<ExerciseSessionStat, unknown>[] = [
   {
     accessorKey: "date",
-    header: "Date",
+    header: "วันที่",
     cell: ({ row }) =>
       new Date(row.original.date).toLocaleDateString(undefined, {
         year: "numeric",
@@ -21,7 +21,7 @@ const columns: LegacyColumnDef<ExerciseSessionStat, unknown>[] = [
   },
   {
     id: "sets",
-    header: "Sets",
+    header: "เซ็ต",
     cell: ({ row }) => (
       <span className="text-muted-foreground">
         {row.original.sets.map((set) => `${set.reps}×${set.weight}kg`).join(", ")}
@@ -30,17 +30,17 @@ const columns: LegacyColumnDef<ExerciseSessionStat, unknown>[] = [
   },
   {
     accessorKey: "volume",
-    header: "Volume",
+    header: "วอลุ่ม",
     cell: ({ row }) => `${Math.round(row.original.volume).toLocaleString()} kg`,
   },
   {
     accessorKey: "estimated1RM",
-    header: "Est. 1RM",
+    header: "ประมาณ 1RM",
     cell: ({ row }) => `${Math.round(row.original.estimated1RM * 10) / 10} kg`,
   },
   {
     id: "rpe",
-    header: "Avg RPE",
+    header: "RPE เฉลี่ย",
     cell: ({ row }) => {
       const rated = row.original.sets.filter((set) => set.rpe !== undefined);
       if (rated.length === 0) return <span className="text-muted-foreground">—</span>;
@@ -51,7 +51,7 @@ const columns: LegacyColumnDef<ExerciseSessionStat, unknown>[] = [
   },
   {
     accessorKey: "note",
-    header: "Note",
+    header: "โน้ต",
     cell: ({ row }) => (
       <span className="line-clamp-1 text-muted-foreground">
         {row.original.note || "—"}
@@ -67,7 +67,7 @@ export function ExerciseHistoryTable({ sessions }: ExerciseHistoryTableProps) {
     <DataTable
       columns={columns}
       data={rows}
-      emptyMessage="No history yet for this exercise."
+      emptyMessage="ยังไม่มีประวัติสำหรับท่านี้"
     />
   );
 }

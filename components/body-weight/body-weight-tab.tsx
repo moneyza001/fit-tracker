@@ -34,7 +34,7 @@ export function BodyWeightTab({ initialEntries }: BodyWeightTabProps) {
       setEntries(items);
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Failed to load entries"
+        error instanceof Error ? error.message : "โหลดข้อมูลไม่สำเร็จ"
       );
     } finally {
       setIsLoading(false);
@@ -58,12 +58,12 @@ export function BodyWeightTab({ initialEntries }: BodyWeightTabProps) {
       await apiRequest(`/api/body-weight/${deletingEntry._id}`, {
         method: "DELETE",
       });
-      toast.success("Entry deleted");
+      toast.success("ลบรายการแล้ว");
       setDeletingEntry(null);
       refetch();
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Failed to delete entry"
+        error instanceof Error ? error.message : "ลบรายการไม่สำเร็จ"
       );
     } finally {
       setIsDeleting(false);
@@ -79,7 +79,7 @@ export function BodyWeightTab({ initialEntries }: BodyWeightTabProps) {
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>Progress</CardTitle>
+          <CardTitle>ความก้าวหน้า</CardTitle>
         </CardHeader>
         <CardContent>
           <WeightChart entries={entries} />
@@ -89,14 +89,14 @@ export function BodyWeightTab({ initialEntries }: BodyWeightTabProps) {
       <div className="flex justify-end">
         <Button onClick={handleAdd}>
           <Plus className="size-4" />
-          Log Weight
+          บันทึกน้ำหนัก
         </Button>
       </div>
       <DataTable
         columns={columns}
         data={[...entries].reverse()}
         isLoading={isLoading}
-        emptyMessage="No body weight entries yet."
+        emptyMessage="ยังไม่มีข้อมูลน้ำหนักตัว"
       />
       <BodyWeightForm
         open={formOpen}
@@ -107,8 +107,8 @@ export function BodyWeightTab({ initialEntries }: BodyWeightTabProps) {
       <ConfirmDeleteDialog
         open={Boolean(deletingEntry)}
         onOpenChange={(open) => !open && setDeletingEntry(null)}
-        title="Delete entry?"
-        description="This will permanently delete this body weight entry."
+        title="ลบรายการนี้หรือไม่?"
+        description="การลบนี้จะลบข้อมูลน้ำหนักตัวนี้อย่างถาวร"
         onConfirm={handleDeleteConfirm}
         isLoading={isDeleting}
       />

@@ -23,15 +23,15 @@ export default async function HistoryPage() {
   >(logsDoc).map((log) => ({
     ...log,
     workoutPlanName:
-      log.workoutPlanId?.name ?? log.workoutTemplateId?.name ?? "Workout",
+      log.workoutPlanId?.name ?? log.workoutTemplateId?.name ?? "เวิร์คเอาท์",
   }));
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold">History</h1>
+        <h1 className="text-2xl font-semibold">ประวัติ</h1>
         <p className="text-sm text-muted-foreground">
-          Every workout you&apos;ve logged.
+          เวิร์คเอาท์ทั้งหมดที่คุณบันทึกไว้
         </p>
       </div>
       <HistoryTable logs={logs} />

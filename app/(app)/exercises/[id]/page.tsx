@@ -67,18 +67,18 @@ export default async function ExerciseDetailPage({
 
       <div className="grid grid-cols-3 gap-4">
         <StatTile
-          label="Current"
+          label="ปัจจุบัน"
           value={latest ? `${latest.weight} kg` : "—"}
           icon={Weight}
         />
         <StatTile
-          label="Best"
+          label="ดีที่สุด"
           value={sessions.length ? `${bestWeight} kg` : "—"}
           icon={Trophy}
           accent="gold"
         />
         <StatTile
-          label="Est. 1RM"
+          label="ประมาณ 1RM"
           value={
             sessions.length ? `${Math.round(bestEstimated1RM * 10) / 10} kg` : "—"
           }
@@ -89,7 +89,7 @@ export default async function ExerciseDetailPage({
 
       <Card>
         <CardHeader>
-          <CardTitle>Progress</CardTitle>
+          <CardTitle>ความก้าวหน้า</CardTitle>
         </CardHeader>
         <CardContent>
           <ExerciseMetricChart sessions={sessions} />
@@ -98,7 +98,7 @@ export default async function ExerciseDetailPage({
 
       <Card>
         <CardHeader>
-          <CardTitle>Body Weight vs. Lifted Weight</CardTitle>
+          <CardTitle>น้ำหนักตัว เทียบกับ น้ำหนักที่ยก</CardTitle>
         </CardHeader>
         <CardContent>
           <BodyWeightOverlayChart
@@ -110,7 +110,7 @@ export default async function ExerciseDetailPage({
 
       <Card>
         <CardHeader>
-          <CardTitle>Recent History</CardTitle>
+          <CardTitle>ประวัติล่าสุด</CardTitle>
         </CardHeader>
         <CardContent>
           <ExerciseHistoryTable sessions={sessions} />

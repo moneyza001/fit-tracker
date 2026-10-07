@@ -20,7 +20,7 @@ export function getWorkoutPlanColumns({
   return [
     {
       accessorKey: "name",
-      header: "Name",
+      header: "ชื่อ",
       cell: ({ row }) => (
         <Link
           href={`/workout-plans/${row.original._id}`}
@@ -32,7 +32,7 @@ export function getWorkoutPlanColumns({
     },
     {
       accessorKey: "programId",
-      header: "Program",
+      header: "โปรแกรม",
       cell: ({ row }) => (
         <span className="text-muted-foreground">
           {programNameById[row.original.programId] ?? "—"}
@@ -41,12 +41,12 @@ export function getWorkoutPlanColumns({
     },
     {
       accessorKey: "day",
-      header: "Day",
+      header: "วัน",
       cell: ({ row }) => row.original.day,
     },
     {
       accessorKey: "description",
-      header: "Description",
+      header: "คำอธิบาย",
       cell: ({ row }) => (
         <span className="text-muted-foreground">
           {row.original.description || "—"}
@@ -60,7 +60,7 @@ export function getWorkoutPlanColumns({
         <div className="flex justify-end gap-1">
           <Link
             href={`/workout-plans/${row.original._id}`}
-            aria-label={`Manage exercises in ${row.original.name}`}
+            aria-label={`จัดการท่าออกกำลังกายใน ${row.original.name}`}
             className={buttonVariants({ variant: "ghost", size: "icon-sm" })}
           >
             <Dumbbell className="size-4" />
@@ -68,7 +68,7 @@ export function getWorkoutPlanColumns({
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label={`Edit ${row.original.name}`}
+            aria-label={`แก้ไข ${row.original.name}`}
             onClick={() => onEdit(row.original)}
           >
             <Pencil className="size-4" />
@@ -76,7 +76,7 @@ export function getWorkoutPlanColumns({
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label={`Delete ${row.original.name}`}
+            aria-label={`ลบ ${row.original.name}`}
             onClick={() => onDelete(row.original)}
           >
             <Trash2 className="size-4" />

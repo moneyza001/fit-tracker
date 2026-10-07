@@ -30,9 +30,9 @@ import {
 } from "@/lib/accent-prefs";
 
 const THEME_OPTIONS = [
-  { value: "light", label: "Light" },
-  { value: "dark", label: "Dark" },
-  { value: "system", label: "System" },
+  { value: "light", label: "สว่าง" },
+  { value: "dark", label: "มืด" },
+  { value: "system", label: "ระบบ" },
 ] as const;
 
 function useMounted(): boolean {
@@ -63,12 +63,12 @@ function AppearanceCard() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Appearance</CardTitle>
-        <CardDescription>Theme and accent color for the app.</CardDescription>
+        <CardTitle>การแสดงผล</CardTitle>
+        <CardDescription>ธีมและสีหลักของแอป</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
-          <Label>Theme</Label>
+          <Label>ธีม</Label>
           <div className="flex gap-2">
             {THEME_OPTIONS.map((option) => (
               <Button
@@ -84,7 +84,7 @@ function AppearanceCard() {
           </div>
         </div>
         <div className="space-y-2">
-          <Label>Accent color</Label>
+          <Label>สีหลัก</Label>
           <div className="flex flex-wrap gap-2">
             {ACCENT_OPTIONS.map((option) => (
               <button
@@ -120,7 +120,7 @@ export default function SettingsPage() {
   function handleSave() {
     setRestTimerSeconds(seconds);
     setDraft(seconds);
-    toast.success("Settings saved");
+    toast.success("บันทึกการตั้งค่าแล้ว");
   }
 
   const persistedRemindersEnabled = useSyncExternalStore(
@@ -137,21 +137,21 @@ export default function SettingsPage() {
     if (checked) {
       const permission = await requestNotificationPermission();
       if (permission !== "granted") {
-        toast.error("Notification permission was not granted");
+        toast.error("ไม่ได้รับอนุญาตให้แจ้งเตือน");
         return;
       }
     }
     setRemindersEnabled(checked);
     setDraftRemindersEnabled(checked);
-    toast.success(checked ? "Reminders enabled" : "Reminders disabled");
+    toast.success(checked ? "เปิดการแจ้งเตือนแล้ว" : "ปิดการแจ้งเตือนแล้ว");
   }
 
   return (
     <div className="max-w-md space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold">Settings</h1>
+        <h1 className="text-2xl font-semibold">ตั้งค่า</h1>
         <p className="text-sm text-muted-foreground">
-          Preferences for your workout sessions.
+          ปรับแต่งการตั้งค่าสำหรับเวิร์คเอาท์ของคุณ
         </p>
       </div>
 
@@ -159,15 +159,14 @@ export default function SettingsPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Rest Timer</CardTitle>
+          <CardTitle>ตัวจับเวลาพัก</CardTitle>
           <CardDescription>
-            How long to rest after marking a set done. Applies to every
-            exercise.
+            ระยะเวลาพักหลังจากทำเซ็ตเสร็จ ใช้กับทุกท่าออกกำลังกาย
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="rest-seconds">Default rest (seconds)</Label>
+            <Label htmlFor="rest-seconds">เวลาพักเริ่มต้น (วินาที)</Label>
             <Input
               id="rest-seconds"
               type="number"
@@ -178,16 +177,16 @@ export default function SettingsPage() {
               onChange={(e) => setDraft(e.target.valueAsNumber || 0)}
             />
           </div>
-          <Button onClick={handleSave}>Save</Button>
+          <Button onClick={handleSave}>บันทึก</Button>
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader>
-          <CardTitle>Reminders</CardTitle>
+          <CardTitle>การแจ้งเตือน</CardTitle>
           <CardDescription>
-            Get a browser notification when your streak is about to break or
-            your active program is waiting on you.
+            รับการแจ้งเตือนจากเบราว์เซอร์เมื่อสตรีคของคุณกำลังจะขาด
+            หรือโปรแกรมที่ใช้งานอยู่กำลังรอคุณอยู่
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -200,7 +199,7 @@ export default function SettingsPage() {
               }
             />
             <Label htmlFor="reminders-enabled">
-              Enable workout reminders
+              เปิดการแจ้งเตือนเวิร์คเอาท์
             </Label>
           </div>
         </CardContent>

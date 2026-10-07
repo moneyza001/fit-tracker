@@ -37,7 +37,7 @@ export function WorkoutPlansTab({
       setWorkoutPlans(plans);
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Failed to load workout plans"
+        error instanceof Error ? error.message : "โหลดแผนการฝึกไม่สำเร็จ"
       );
     } finally {
       setIsLoading(false);
@@ -66,12 +66,12 @@ export function WorkoutPlansTab({
       await apiRequest(`/api/workout-plans/${deletingPlan._id}`, {
         method: "DELETE",
       });
-      toast.success("Workout plan deleted");
+      toast.success("ลบแผนการฝึกแล้ว");
       setDeletingPlan(null);
       refetch();
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Failed to delete workout plan"
+        error instanceof Error ? error.message : "ลบแผนการฝึกไม่สำเร็จ"
       );
     } finally {
       setIsDeleting(false);
@@ -89,19 +89,19 @@ export function WorkoutPlansTab({
       <div className="flex justify-end">
         <Button onClick={handleAdd} disabled={programs.length === 0}>
           <Plus className="size-4" />
-          Add Workout Plan
+          เพิ่มแผนการฝึก
         </Button>
       </div>
       {programs.length === 0 && !isLoading && (
         <p className="text-sm text-muted-foreground">
-          Create a program first before adding workout plans.
+          สร้างโปรแกรมก่อนเพื่อเพิ่มแผนการฝึก
         </p>
       )}
       <DataTable
         columns={columns}
         data={workoutPlans}
         isLoading={isLoading}
-        emptyMessage="No workout plans yet."
+        emptyMessage="ยังไม่มีแผนการฝึก"
       />
       <WorkoutPlanForm
         open={formOpen}
@@ -113,8 +113,8 @@ export function WorkoutPlansTab({
       <ConfirmDeleteDialog
         open={Boolean(deletingPlan)}
         onOpenChange={(open) => !open && setDeletingPlan(null)}
-        title="Delete workout plan?"
-        description={`This will permanently delete "${deletingPlan?.name}" and its exercise targets.`}
+        title="ลบแผนการฝึกนี้หรือไม่?"
+        description={`การลบนี้จะลบ "${deletingPlan?.name}" และเป้าหมายท่าออกกำลังกายทั้งหมดอย่างถาวร`}
         onConfirm={handleDeleteConfirm}
         isLoading={isDeleting}
       />

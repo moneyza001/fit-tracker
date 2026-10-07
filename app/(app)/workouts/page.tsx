@@ -87,7 +87,7 @@ export default async function WorkoutsPage() {
     return (
       <WorkoutSession
         logId={currentLog._id}
-        workoutPlanName={workoutPlanDoc?.name ?? "Workout"}
+        workoutPlanName={workoutPlanDoc?.name ?? "เวิร์คเอาท์"}
         date={currentLog.date}
         initialExercises={sessionExercises}
         initialOverallNote={currentLog.overallNote ?? ""}

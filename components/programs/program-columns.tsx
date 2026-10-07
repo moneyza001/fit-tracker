@@ -18,14 +18,14 @@ export function getProgramColumns({
   return [
     {
       accessorKey: "name",
-      header: "Name",
+      header: "ชื่อ",
       cell: ({ row }) => (
         <span className="font-medium">{row.original.name}</span>
       ),
     },
     {
       accessorKey: "description",
-      header: "Description",
+      header: "คำอธิบาย",
       cell: ({ row }) => (
         <span className="text-muted-foreground">
           {row.original.description || "—"}
@@ -34,10 +34,10 @@ export function getProgramColumns({
     },
     {
       accessorKey: "status",
-      header: "Status",
+      header: "สถานะ",
       cell: ({ row }) => (
         <Badge variant={row.original.status === "active" ? "default" : "secondary"}>
-          {row.original.status}
+          {row.original.status === "active" ? "ใช้งานอยู่" : "เก็บถาวร"}
         </Badge>
       ),
     },
@@ -49,7 +49,7 @@ export function getProgramColumns({
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label={`Edit ${row.original.name}`}
+            aria-label={`แก้ไข ${row.original.name}`}
             onClick={() => onEdit(row.original)}
           >
             <Pencil className="size-4" />
@@ -57,7 +57,7 @@ export function getProgramColumns({
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label={`Delete ${row.original.name}`}
+            aria-label={`ลบ ${row.original.name}`}
             onClick={() => onDelete(row.original)}
           >
             <Trash2 className="size-4" />
